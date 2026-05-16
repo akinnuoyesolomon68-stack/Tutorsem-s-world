@@ -17,6 +17,7 @@ const getBaseUrl = (url: any) => {
 
 // @ts-ignore
 const rawUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
+export const isSupabaseConfigured = rawUrl !== 'https://placeholder.supabase.co';
 const supabaseUrl = getBaseUrl(rawUrl);
 // @ts-ignore
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';

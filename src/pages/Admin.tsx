@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Plus, Trash2, Edit2, Save, X, Settings, Package, Image as ImageIcon, Eye, Truck, CheckCircle } from 'lucide-react';
 import { useAppContext, Product, PortfolioItem, SiteContent, Order } from '../context/AppContext';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { Link } from 'react-router-dom';
 
 export const Admin = () => {
@@ -114,6 +114,25 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-6 md:p-12 overflow-y-auto">
+        {!isSupabaseConfigured && (
+          <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-2xl mb-8">
+            <h3 className="text-xl font-bold mb-2 break-words">Warning: Missing Supabase Environment Variables</h3>
+            <p className="mb-4">
+              It looks like you deployed this application to Netlify (or another hosting provider) but <strong>did not set your Vite environment variables</strong> during the build.
+              Because Vite builds the app statically, the credentials must be provided as environment variables in your deployment pipeline.
+            </p>
+            <ol className="list-decimal pl-5 space-y-2 mb-4 font-medium">
+              <li>Go to your Netlify dashboard for this site.</li>
+              <li>Navigate to <strong>Site Configuration &gt; Environment variables</strong>.</li>
+              <li>Add <code>VITE_SUPABASE_URL</code> with your Supabase URL.</li>
+              <li>Add <code>VITE_SUPABASE_ANON_KEY</code> with your Supabase anon key.</li>
+              <li>Restart or trigger a new deployment for the changes to take effect.</li>
+            </ol>
+            <p className="text-sm border-t border-red-200 mt-4 pt-4">
+              Right now, the app is trying to fetch from a placeholder URL, which is why everything reads <code>0</code> or shows <code>Failed to fetch</code>.
+            </p>
+          </div>
+        )}
         {/* Simple Analytics Header */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
