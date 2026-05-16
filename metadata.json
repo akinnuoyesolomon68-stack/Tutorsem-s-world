@@ -1,0 +1,6 @@
+{
+  "name": "TUTORSEM's World",
+  "description": "A professional portfolio and marketplace for TUTORSEM",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
