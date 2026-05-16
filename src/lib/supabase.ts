@@ -14,8 +14,10 @@ const getBaseUrl = (url: string) => {
   }
 };
 
-const rawUrl = (import.meta as any).env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
+// @ts-ignore
+const rawUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseUrl = getBaseUrl(rawUrl);
-const supabaseAnonKey = (import.meta as any).env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
+// @ts-ignore
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
