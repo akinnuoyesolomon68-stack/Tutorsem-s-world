@@ -75,7 +75,7 @@ export const Portfolio = () => {
   );
 };
 
-const PortfolioCard = ({ item, onClick }: { item: PortfolioItem, onClick: () => void }) => {
+const PortfolioCard: React.FC<{ item: PortfolioItem, onClick: () => void }> = ({ item, onClick }) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
