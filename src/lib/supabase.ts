@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const getBaseUrl = (url: string) => {
+const getBaseUrl = (url: any) => {
+  if (!url || typeof url !== 'string') return 'https://placeholder.supabase.co';
   let cleanUrl = url.replace(/^["']|["']$/g, '').trim();
   cleanUrl = cleanUrl.replace(/\/+$/, '').replace(/\/rest\/v1\/?$/, '');
   if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {

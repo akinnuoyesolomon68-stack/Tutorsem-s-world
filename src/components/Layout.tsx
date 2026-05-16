@@ -14,7 +14,7 @@ export default function Layout() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [pathname, hash]);
 
