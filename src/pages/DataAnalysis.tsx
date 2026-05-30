@@ -48,7 +48,7 @@ export const DataAnalysis = () => {
               key={i}
               className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm"
             >
-              <div className="w-12 h-12 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center mb-6">
+              <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6">
                 <service.icon className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
@@ -62,7 +62,7 @@ export const DataAnalysis = () => {
           <div className="mb-24">
             <div className="flex items-end justify-between mb-8">
               <h2 className="text-3xl font-semibold tracking-tight">Data Analysis Services & Resources</h2>
-              <Link to="/marketplace?category=Data Analysis" className="text-teal-600 font-medium hover:text-teal-700">View in Marketplace &rarr;</Link>
+              <Link to="/marketplace?category=Data Analysis" className="text-amber-600 font-medium hover:text-amber-700">View in Marketplace &rarr;</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                {dataProducts.map(product => (
@@ -71,7 +71,7 @@ export const DataAnalysis = () => {
                        <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     </div>
                     <div className="p-6">
-                       <div className="text-xs font-semibold text-teal-600 uppercase mb-2">{product.category}</div>
+                       <div className="text-xs font-semibold text-amber-600 uppercase mb-2">{product.category}</div>
                        <h3 className="text-lg font-medium text-gray-900 mb-2 truncate">{product.name}</h3>
                        <div className="flex justify-between items-center mt-4">
                           <span className="text-xl font-semibold text-gray-900">₦{product.price.toLocaleString()}</span>
@@ -88,7 +88,7 @@ export const DataAnalysis = () => {
         <div>
           <div className="flex items-end justify-between mb-8">
             <h2 className="text-3xl font-semibold tracking-tight">Recent Data Projects</h2>
-            <Link to="/portfolio" className="text-teal-600 font-medium hover:text-teal-700">View Full Portfolio &rarr;</Link>
+            <Link to="/portfolio" className="text-amber-600 font-medium hover:text-amber-700">View Full Portfolio &rarr;</Link>
           </div>
           {dataProjects.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

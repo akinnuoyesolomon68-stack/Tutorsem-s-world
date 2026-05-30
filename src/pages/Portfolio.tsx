@@ -62,7 +62,7 @@ export const Portfolio = () => {
                 <div className="flex items-start justify-between gap-6">
                   <div>
                     <h2 className="text-3xl font-semibold tracking-tight text-gray-900 mb-2">{selectedItem.title}</h2>
-                    <span className="text-sm font-medium tracking-wide text-teal-600 uppercase bg-teal-50 px-3 py-1 rounded-full">{selectedItem.category}</span>
+                    <span className="text-sm font-medium tracking-wide text-amber-600 uppercase bg-amber-50 px-3 py-1 rounded-full">{selectedItem.category}</span>
                     <p className="text-gray-600 leading-relaxed mt-6 text-lg">{selectedItem.description}</p>
                   </div>
                 </div>
@@ -89,7 +89,7 @@ const PortfolioCard: React.FC<{ item: PortfolioItem, onClick: () => void }> = ({
            whileInView={{ y: 0, opacity: 1 }}
            className="transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
         >
-          <span className="text-sm font-medium tracking-wide text-teal-300 uppercase mb-2 block">{item.category}</span>
+          <span className="text-sm font-medium tracking-wide text-amber-300 uppercase mb-2 block">{item.category}</span>
           <h3 className="text-2xl font-semibold text-white mb-2">{item.title}</h3>
           <div className="flex items-center space-x-2 text-white/80 font-medium">
             <span>View Project</span>

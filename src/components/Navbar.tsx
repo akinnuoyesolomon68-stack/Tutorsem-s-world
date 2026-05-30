@@ -42,7 +42,7 @@ export const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="text-2xl font-semibold tracking-tight text-gray-900 group">
-            TUTORSEM's World<span className="text-teal-600 transition-colors group-hover:text-teal-500">.</span>
+            TUTORSEM's World<span className="text-amber-600 transition-colors group-hover:text-amber-500">.</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -52,8 +52,8 @@ export const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-teal-600',
-                  location.pathname === link.path ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : 'text-gray-600'
+                  'text-sm font-medium transition-colors hover:text-amber-600',
+                  location.pathname === link.path ? 'text-amber-600 border-b-2 border-amber-600 pb-1' : 'text-gray-600'
                 )}
               >
                 {link.name}
@@ -62,7 +62,7 @@ export const Navbar = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Link to="/marketplace" className="p-2 text-gray-600 hover:text-teal-600 transition-colors hidden md:block">
+            <Link to="/marketplace" className="p-2 text-gray-600 hover:text-amber-600 transition-colors hidden md:block">
               <ShoppingBag className="w-5 h-5" />
             </Link>
             <button
@@ -86,7 +86,7 @@ export const Navbar = () => {
           >
             <div className="flex items-center justify-between px-6 py-6 border-b border-gray-100">
               <Link to="/" className="text-2xl font-semibold tracking-tight text-gray-900">
-                TUTORSEM's World<span className="text-teal-600">.</span>
+                TUTORSEM's World<span className="text-amber-600">.</span>
               </Link>
               <button
                 className="p-2 text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
@@ -102,7 +102,7 @@ export const Navbar = () => {
                   to={link.path}
                   className={cn(
                     'text-xl font-medium tracking-tight transition-colors',
-                    location.pathname === link.path ? 'text-teal-600' : 'text-gray-900'
+                    location.pathname === link.path ? 'text-amber-600' : 'text-gray-900'
                   )}
                 >
                   {link.name}

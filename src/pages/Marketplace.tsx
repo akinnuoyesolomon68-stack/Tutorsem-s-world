@@ -109,14 +109,14 @@ export const Marketplace = () => {
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-full text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-full text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
                 />
               </div>
               <div className="relative">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="appearance-none bg-white border border-gray-200 rounded-full py-3 pl-4 pr-10 text-sm font-medium text-gray-700 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all cursor-pointer"
+                  className="appearance-none bg-white border border-gray-200 rounded-full py-3 pl-4 pr-10 text-sm font-medium text-gray-700 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all cursor-pointer"
                 >
                   <option value="latest">Latest</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -143,30 +143,31 @@ export const Marketplace = () => {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.2 }}
                   key={product.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm group hover:shadow-xl hover:shadow-gray-200/50 transition-all flex flex-col"
+                  className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm group hover:shadow-xl hover:shadow-gray-200/50 transition-all flex flex-col hover:-translate-y-1"
                 >
                   <div className="aspect-[4/5] bg-gray-100 relative overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300"></div>
                     {product.isSold && (
-                      <div className="absolute top-4 right-4 bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+                      <div className="absolute top-4 right-4 bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
                         SOLD OUT
                       </div>
                     )}
                   </div>
                   <div className="p-6 flex flex-col flex-grow">
-                    <div className="text-xs font-semibold tracking-wider text-teal-600 uppercase mb-2">{product.category}</div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">{product.name}</h3>
+                    <div className="text-xs font-semibold tracking-wider text-amber-600 uppercase mb-2">{product.category}</div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">{product.name}</h3>
                     <p className="text-sm text-gray-500 mb-6 flex-grow">{product.description}</p>
                     <div className="flex items-center justify-between mt-auto">
-                      <span className="text-xl font-semibold text-gray-900">₦{product.price.toLocaleString()}</span>
+                      <span className="text-xl font-bold text-gray-900">₦{product.price.toLocaleString()}</span>
                       <button 
                         disabled={product.isSold} 
                         onClick={() => !product.isSold && setPurchasingProduct(product)}
                         className={cn(
-                          "flex items-center space-x-2 text-sm font-medium px-4 py-2.5 rounded-full transition-colors",
+                          "flex items-center space-x-2 text-sm font-medium px-5 py-2.5 rounded-full transition-colors shadow-sm",
                           product.isSold 
                             ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
-                            : "bg-gray-900 text-white hover:bg-gray-800"
+                            : "bg-gray-900 text-white hover:bg-amber-400 hover:text-black hover:shadow-md"
                         )}
                       >
                         {product.isSold ? (
@@ -212,18 +213,18 @@ export const Marketplace = () => {
                    <button onClick={() => setPurchasingProduct(null)} className="p-2 text-gray-400 hover:text-gray-900 bg-gray-50 rounded-full hover:bg-gray-100"><X className="w-5 h-5" /></button>
                 </div>
                 <div className="p-6 bg-gray-50 flex items-center space-x-4">
-                   <img src={purchasingProduct.image} alt={purchasingProduct.name} className="w-16 h-16 rounded-xl object-cover" />
+                   <img src={purchasingProduct.image} alt={purchasingProduct.name} className="w-16 h-16 rounded-xl object-cover shadow-sm" />
                    <div>
                       <h4 className="font-medium text-gray-900">{purchasingProduct.name}</h4>
-                      <p className="text-teal-600 font-semibold">₦{purchasingProduct.price.toLocaleString()}</p>
+                      <p className="text-amber-600 font-bold">₦{purchasingProduct.price.toLocaleString()}</p>
                    </div>
                 </div>
                 <form onSubmit={handlePurchase} className="p-6 space-y-4">
                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                      <input type="text" required placeholder="Enter your full name" className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+                      <input type="text" required placeholder="Enter your full name" className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition-all" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
                    </div>
-                   <button type="submit" className="w-full py-4 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors mt-4">Complete Purchase</button>
+                   <button type="submit" className="w-full py-4 rounded-xl bg-gray-900 text-white font-medium hover:bg-amber-400 hover:text-black transition-colors mt-4 shadow-sm hover:shadow-md">Complete Purchase</button>
                 </form>
              </motion.div>
           </motion.div>

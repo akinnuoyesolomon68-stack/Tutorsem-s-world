@@ -58,7 +58,7 @@ export const TrackOrder = () => {
                 placeholder="e.g. ORD-123456789"
                 value={orderNumber}
                 onChange={(e) => setOrderNumber(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-lg font-medium tracking-wide uppercase"
+                className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition-all text-lg font-medium tracking-wide uppercase"
               />
             </div>
             <button 
@@ -84,7 +84,7 @@ export const TrackOrder = () => {
                   </div>
                   <div className="text-left md:text-right">
                     <p className="text-gray-500 text-sm font-medium mb-1">Estimated Delivery</p>
-                    <h2 className="text-xl font-semibold text-teal-700">{new Date(foundOrder.estimatedDelivery).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+                    <h2 className="text-xl font-semibold text-amber-700">{new Date(foundOrder.estimatedDelivery).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
                   </div>
                 </div>
 
@@ -130,13 +130,13 @@ export const TrackOrder = () => {
                           <div key={step.status} className="flex items-start">
                             <div className={cn(
                               "w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white shadow-sm transition-colors",
-                              isCompleted ? "bg-teal-500 text-white" : "bg-gray-100 text-gray-400"
+                              isCompleted ? "bg-amber-500 text-white" : "bg-gray-100 text-gray-400"
                             )}>
                               <step.icon className="w-6 h-6" />
                             </div>
                             <div className="ml-6 pt-3">
                               <h4 className={cn("text-lg font-semibold", isCompleted ? "text-gray-900" : "text-gray-400")}>{step.status}</h4>
-                              <p className={cn("text-sm mt-1", isCurrent ? "text-teal-600 font-medium" : "text-gray-500")}>{step.desc}</p>
+                              <p className={cn("text-sm mt-1", isCurrent ? "text-amber-600 font-medium" : "text-gray-500")}>{step.desc}</p>
                             </div>
                           </div>
                         );

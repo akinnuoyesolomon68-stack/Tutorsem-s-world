@@ -24,7 +24,7 @@ export const Admin = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
         <div className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-100 text-center">
-          <div className="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <Shield className="w-8 h-8" />
           </div>
           <h1 className="text-2xl font-semibold mb-2">Admin Access</h1>
@@ -36,7 +36,7 @@ export const Admin = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 text-center tracking-widest font-mono"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-center tracking-widest font-mono"
               />
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <div className="w-full md:w-64 bg-white border-r border-gray-200 p-6 flex flex-col h-auto md:h-screen sticky top-0">
         <Link to="/" className="text-2xl font-semibold tracking-tight text-gray-900 mb-10 block">
-          TUTORSEM<span className="text-teal-600">Admin</span>
+          TUTORSEM<span className="text-amber-600">Admin</span>
         </Link>
         <div className="space-y-2 flex-grow flex md:flex-col overflow-x-auto md:overflow-visible flex-row pb-4 md:pb-0 gap-2 md:gap-0 font-medium">
           <button
@@ -116,20 +116,19 @@ const AdminDashboard = () => {
       <div className="flex-1 p-6 md:p-12 overflow-y-auto">
         {!isSupabaseConfigured && (
           <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-2xl mb-8">
-            <h3 className="text-xl font-bold mb-2 break-words">Warning: Missing Supabase Environment Variables</h3>
+            <h3 className="text-xl font-bold mb-2 break-words">Critical: Missing Supabase Environment Variables</h3>
             <p className="mb-4">
-              It looks like you deployed this application to Netlify (or another hosting provider) but <strong>did not set your Vite environment variables</strong> during the build.
-              Because Vite builds the app statically, the credentials must be provided as environment variables in your deployment pipeline.
+              It looks like you deployed this application to Netlify but <strong>did not correctly set your Vite environment variables</strong> during the build.
             </p>
-            <ol className="list-decimal pl-5 space-y-2 mb-4 font-medium">
+            <ol className="list-decimal pl-5 space-y-3 mb-4 font-medium">
               <li>Go to your Netlify dashboard for this site.</li>
-              <li>Navigate to <strong>Site Configuration &gt; Environment variables</strong>.</li>
-              <li>Add <code>VITE_SUPABASE_URL</code> with your Supabase URL.</li>
-              <li>Add <code>VITE_SUPABASE_ANON_KEY</code> with your Supabase anon key.</li>
-              <li>Restart or trigger a new deployment for the changes to take effect.</li>
+              <li>Navigate to <strong>Site configuration &gt; Environment variables</strong>.</li>
+              <li>Add a variable exactly named <code>VITE_SUPABASE_URL</code> with your Supabase URL.</li>
+              <li>Add a variable exactly named <code>VITE_SUPABASE_ANON_KEY</code> with your Supabase anon key.</li>
+              <li className="text-red-600 font-bold">CRITICAL: Go to Deploys, click the "Trigger deploy" dropdown, and select "Clear cache and deploy site". A normal restart is NOT enough because Vite bakes variables into the code during the build.</li>
             </ol>
             <p className="text-sm border-t border-red-200 mt-4 pt-4">
-              Right now, the app is trying to fetch from a placeholder URL, which is why everything reads <code>0</code> or shows <code>Failed to fetch</code>.
+              If the variables are set correctly as <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> and you've triggered a "Clear cache and deploy", this message will disappear.
             </p>
           </div>
         )}
@@ -241,7 +240,7 @@ const ManageProducts = () => {
                  type="file" 
                  accept="image/*"
                  required={!editingProduct.image}
-                 className="p-3 border rounded-xl w-full bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer" 
+                 className="p-3 border rounded-xl w-full bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer" 
                  onChange={async (e) => {
                    const file = e.target.files?.[0];
                    if (file) {
@@ -273,7 +272,7 @@ const ManageProducts = () => {
                    }
                  }} 
                />
-               {isUploading && <p className="text-sm text-teal-600 mt-2 font-medium animate-pulse">Uploading image please wait...</p>}
+               {isUploading && <p className="text-sm text-amber-600 mt-2 font-medium animate-pulse">Uploading image please wait...</p>}
                {editingProduct.image && !isUploading && (
                  <div className="mt-4 relative inline-block">
                    <img src={editingProduct.image} alt="Preview" className="h-24 w-24 object-cover rounded-xl border border-gray-200" />
@@ -290,7 +289,7 @@ const ManageProducts = () => {
             </label>
             <div className="col-span-1 md:col-span-2 justify-end flex space-x-2 mt-4">
                <button type="button" onClick={() => setEditingProduct(null)} className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Cancel</button>
-               <button type="submit" disabled={isSaving || isUploading} className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium disabled:opacity-50">
+               <button type="submit" disabled={isSaving || isUploading} className="px-4 py-2 bg-amber-600 text-black rounded-lg hover:bg-amber-500 font-medium disabled:opacity-50">
                   {isSaving ? 'Saving...' : 'Save Product'}
                </button>
             </div>
@@ -324,7 +323,7 @@ const ManageProducts = () => {
                   </span>
                 </td>
                 <td className="p-4 flex items-center justify-end space-x-2">
-                  <button onClick={() => setEditingProduct(product)} className="p-1.5 text-gray-500 hover:text-teal-600 hover:bg-teal-50 rounded-md"><Edit2 className="w-4 h-4" /></button>
+                  <button onClick={() => setEditingProduct(product)} className="p-1.5 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md"><Edit2 className="w-4 h-4" /></button>
                   <button onClick={async () => {
                     try {
                       await deleteProduct(product.id);
@@ -407,7 +406,7 @@ const ManageOrders = () => {
              </div>
              <div className="justify-end flex space-x-2 mt-4 pt-4 border-t">
                 <button type="button" onClick={() => setEditingOrder(null)} className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Cancel</button>
-                <button type="submit" className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium">Save Order</button>
+                <button type="submit" className="px-4 py-2 bg-amber-600 text-black rounded-lg hover:bg-amber-500 font-medium">Save Order</button>
              </div>
            </form>
         </div>
@@ -441,7 +440,7 @@ const ManageOrders = () => {
                     </span>
                   </td>
                   <td className="p-4 flex items-center justify-end">
-                    <button onClick={() => setEditingOrder(order)} className="p-1.5 text-gray-500 hover:text-teal-600 hover:bg-teal-50 rounded-md"><Edit2 className="w-4 h-4" /></button>
+                    <button onClick={() => setEditingOrder(order)} className="p-1.5 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md"><Edit2 className="w-4 h-4" /></button>
                   </td>
                 </tr>
               ))
@@ -529,7 +528,7 @@ const ManagePortfolio = () => {
                  type="file" 
                  accept="image/*"
                  required={!editingItem.image}
-                 className="p-3 border rounded-xl w-full bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer" 
+                 className="p-3 border rounded-xl w-full bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer" 
                  onChange={async (e) => {
                    const file = e.target.files?.[0];
                    if (file) {
@@ -561,7 +560,7 @@ const ManagePortfolio = () => {
                    }
                  }} 
                />
-               {isUploading && <p className="text-sm text-teal-600 mt-2 font-medium animate-pulse">Uploading image please wait...</p>}
+               {isUploading && <p className="text-sm text-amber-600 mt-2 font-medium animate-pulse">Uploading image please wait...</p>}
                {editingItem.image && !isUploading && (
                  <div className="mt-4 relative inline-block">
                    <img src={editingItem.image} alt="Preview" className="h-40 w-auto object-cover rounded-xl border border-gray-200" />
@@ -574,7 +573,7 @@ const ManagePortfolio = () => {
              <textarea required placeholder="Description / Details" className="p-3 border rounded-xl col-span-1 md:col-span-2" value={editingItem.description || ''} onChange={(e) => setEditingItem({...editingItem, description: e.target.value})} />
              <div className="col-span-1 md:col-span-2 justify-end flex space-x-2 mt-4">
                 <button type="button" onClick={() => setEditingItem(null)} className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Cancel</button>
-                <button type="submit" disabled={isSaving || isUploading} className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium disabled:opacity-50">
+                <button type="submit" disabled={isSaving || isUploading} className="px-4 py-2 bg-amber-600 text-black rounded-lg hover:bg-amber-500 font-medium disabled:opacity-50">
                   {isSaving ? 'Saving...' : 'Save Project'}
                 </button>
              </div>
@@ -590,9 +589,9 @@ const ManagePortfolio = () => {
                </div>
                <div className="p-4 flex flex-col flex-1">
                   <div className="flex justify-between items-start mb-2">
-                     <span className="text-xs font-semibold text-teal-600 uppercase tracking-widest bg-teal-50 px-2 py-1 rounded-md">{item.category}</span>
+                     <span className="text-xs font-semibold text-amber-600 uppercase tracking-widest bg-amber-50 px-2 py-1 rounded-md">{item.category}</span>
                      <div className="flex space-x-2">
-                        <button onClick={() => setEditingItem(item)} className="p-1.5 text-gray-400 hover:text-teal-600 bg-gray-50 rounded-md hover:bg-teal-50"><Edit2 className="w-4 h-4" /></button>
+                        <button onClick={() => setEditingItem(item)} className="p-1.5 text-gray-400 hover:text-amber-600 bg-gray-50 rounded-md hover:bg-amber-50"><Edit2 className="w-4 h-4" /></button>
                         <button onClick={async () => {
                           try {
                             await deletePortfolioItem(item.id);
@@ -668,7 +667,7 @@ const ManageContent = () => {
             </div>
 
             <div className="pt-4 border-t flex items-center justify-between">
-               <span className="text-teal-600 font-medium">{saveStatus}</span>
+               <span className="text-amber-600 font-medium">{saveStatus}</span>
                <button type="submit" className="flex items-center space-x-2 bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors">
                   <Save className="w-5 h-5" />
                   <span>Publish Changes</span>

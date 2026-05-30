@@ -17,8 +17,11 @@ export const Contact = () => {
   };
 
   return (
-    <div className="w-full bg-gray-50 min-h-screen pt-20 pb-32 px-6 md:px-12">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full bg-white min-h-screen pt-20 pb-32 px-6 md:px-12 relative overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ca8a04 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,26 +43,26 @@ export const Contact = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h3>
               <div className="space-y-6">
-                <a href="mailto:hello@tutorsem.com" className="flex items-start space-x-4 group text-gray-600 hover:text-teal-600 transition-colors">
-                  <div className="p-3 bg-white rounded-xl shadow-sm group-hover:bg-teal-50 transition-colors">
+                <a href="mailto:hello@tutorsem.com" className="flex items-start space-x-4 group text-gray-600 hover:text-amber-600 transition-colors">
+                  <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100 group-hover:bg-amber-50 group-hover:border-amber-100 transition-colors">
                     <Mail className="w-5 h-5 flex-shrink-0" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 group-hover:text-teal-600">Email</p>
+                    <p className="font-medium text-gray-900 group-hover:text-amber-600 transition-colors">Email</p>
                     <p>hello@tutorsem.com</p>
                   </div>
                 </a>
                 <a href="https://wa.me/2348154405635" target="_blank" rel="noopener noreferrer" className="flex items-start space-x-4 group text-gray-600 hover:text-[#25D366] transition-colors">
-                  <div className="p-3 bg-white rounded-xl shadow-sm group-hover:bg-[#25D366]/10 transition-colors">
+                  <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100 group-hover:bg-[#25D366]/10 group-hover:border-[#25D366]/20 transition-colors">
                     <MessageCircle className="w-5 h-5 flex-shrink-0" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 group-hover:text-[#25D366]">WhatsApp</p>
+                    <p className="font-medium text-gray-900 group-hover:text-[#25D366] transition-colors">WhatsApp</p>
                     <p>+234 815 440 5635</p>
                   </div>
                 </a>
                 <div className="flex items-start space-x-4 text-gray-600">
-                  <div className="p-3 bg-white rounded-xl shadow-sm">
+                  <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">
                     <MapPin className="w-5 h-5 flex-shrink-0" />
                   </div>
                   <div>
@@ -73,9 +76,9 @@ export const Contact = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-6">Socials</h3>
               <div className="flex flex-wrap gap-4">
-                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-gray-900 hover:bg-gray-50 transition-all">X Profile</a>
-                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-gray-900 hover:bg-gray-50 transition-all">Facebook profile</a>
-                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-gray-900 hover:bg-gray-50 transition-all">Instagram profile</a>
+                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-amber-400 hover:bg-amber-50 transition-all">X Profile</a>
+                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-amber-400 hover:bg-amber-50 transition-all">Facebook profile</a>
+                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-amber-400 hover:bg-amber-50 transition-all">Instagram profile</a>
               </div>
             </div>
           </motion.div>
@@ -84,7 +87,7 @@ export const Contact = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            className="lg:col-span-3 bg-white p-8 md:p-12 rounded-[2rem] shadow-sm border border-gray-100"
+            className="lg:col-span-3 bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-gray-200/40 border border-gray-100"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -96,7 +99,7 @@ export const Contact = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -107,7 +110,7 @@ export const Contact = () => {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
                   />
                 </div>
               </div>
@@ -119,7 +122,7 @@ export const Contact = () => {
                   required
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
                 />
               </div>
               <div className="space-y-2">
@@ -130,7 +133,7 @@ export const Contact = () => {
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all resize-none"
                 />
               </div>
               

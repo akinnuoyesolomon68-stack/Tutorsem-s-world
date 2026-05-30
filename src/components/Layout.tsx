@@ -19,7 +19,7 @@ export default function Layout() {
   }, [pathname, hash]);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 flex flex-col selection:bg-teal-100 selection:text-teal-900">
+    <div className="min-h-screen bg-white font-sans text-gray-900 flex flex-col selection:bg-amber-100 selection:text-amber-900">
       <Navbar />
       <main className="flex-grow pt-[88px]"> {/* Space for fixed navbar */}
         <Outlet />
