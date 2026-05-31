@@ -19,9 +19,9 @@ export default function Layout() {
   }, [pathname, hash]);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 flex flex-col selection:bg-amber-100 selection:text-amber-900">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans text-gray-900 flex flex-col selection:bg-[#6D28D9]/20 selection:text-[#6D28D9]">
       <Navbar />
-      <main className="flex-grow pt-[88px]"> {/* Space for fixed navbar */}
+      <main className="flex-grow pt-[88px] lg:pt-[100px]">
         <Outlet />
       </main>
       <Footer />

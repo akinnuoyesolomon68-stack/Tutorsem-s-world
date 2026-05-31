@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Plus, Trash2, Edit2, Save, X, Settings, Package, Image as ImageIcon, Eye, Truck, CheckCircle } from 'lucide-react';
-import { useAppContext, Product, PortfolioItem, SiteContent, Order } from '../context/AppContext';
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { Shield, Plus, Trash2, Edit2, X, Package, Truck, CheckCircle, BarChart3, Users, LogOut } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
+import { Order } from '../context/AppContext';
+import { Product } from '../data/products';
 import { Link } from 'react-router-dom';
 
 export const Admin = () => {
@@ -12,23 +12,23 @@ export const Admin = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'Solomon') {
+    if (password === 'Solomon') { // Admin password
       setIsAuthenticated(true);
       setError('');
     } else {
-      setError('Invalid password');
+      setError('Invalid password. Try again.');
     }
   };
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
         <div className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-100 text-center">
-          <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-[#0F172A] text-white rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
             <Shield className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-semibold mb-2">Admin Access</h1>
-          <p className="text-gray-500 mb-8">Enter password to manage site content.</p>
+          <h1 className="text-2xl font-bold mb-2 font-heading">Admin Portal</h1>
+          <p className="text-gray-500 mb-8 font-sans">Enter password to manage Motun's Unisex store.</p>
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <input
@@ -36,19 +36,19 @@ export const Admin = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-center tracking-widest font-mono"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/50 text-center tracking-widest font-mono"
               />
-              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+              {error && <p className="text-[#6D28D9] text-sm mt-2 font-medium">{error}</p>}
             </div>
             <button
               type="submit"
-              className="w-full bg-gray-900 text-white font-medium py-3 rounded-xl hover:bg-gray-800 transition-colors"
+              className="w-full bg-[#F59E0B] text-[#0F172A] font-bold py-4 rounded-xl hover:bg-[#D97706] hover:text-white transition-colors shadow-lg"
             >
-              Login
+              Secure Login
             </button>
           </form>
           <div className="mt-6">
-             <Link to="/" className="text-sm text-gray-500 hover:text-gray-900">Return to Website</Link>
+             <Link to="/" className="text-sm text-gray-500 hover:text-[#0F172A] transition-colors">Return to Website</Link>
           </div>
         </div>
       </div>
@@ -59,104 +59,185 @@ export const Admin = () => {
 };
 
 const AdminDashboard = () => {
-  const { products, portfolioItems, siteContent, orders } = useAppContext();
-  const [activeTab, setActiveTab] = useState<'products' | 'portfolio' | 'content' | 'orders'>('products');
+  const { products, orders } = useAppContext();
+  const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'analytics' | 'settings'>('analytics');
 
-  // Stats
-  const totalProducts = products.length;
-  const totalPortfolioItems = portfolioItems.length;
-  const totalOrders = orders.length;
+  const totalRevenue = orders.reduce((total, order) => total + order.totalPrice, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row">
       {/* Sidebar */}
-      <div className="w-full md:w-64 bg-white border-r border-gray-200 p-6 flex flex-col h-auto md:h-screen sticky top-0">
-        <Link to="/" className="text-2xl font-semibold tracking-tight text-gray-900 mb-10 block">
-          TUTORSEM<span className="text-amber-600">Admin</span>
+      <div className="w-full md:w-64 bg-white border-r border-gray-200 p-6 flex flex-col h-auto md:h-screen sticky top-0 shadow-sm z-10">
+        <Link to="/" className="text-2xl font-bold tracking-tight text-[#0F172A] mb-10 block font-heading">
+          Motun's <span className="text-[#6D28D9]">Unisex</span><span className="text-[#F59E0B]">.</span>
         </Link>
-        <div className="space-y-2 flex-grow flex md:flex-col overflow-x-auto md:overflow-visible flex-row pb-4 md:pb-0 gap-2 md:gap-0 font-medium">
+        <div className="space-y-2 flex-grow flex md:flex-col overflow-x-auto md:overflow-visible flex-row pb-4 md:pb-0 gap-2 md:gap-0 font-medium font-sans">
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'analytics' ? 'bg-[#0F172A] text-white font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
+          >
+            <BarChart3 className="w-5 h-5" />
+            <span>Overview</span>
+          </button>
           <button
             onClick={() => setActiveTab('products')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'products' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'products' ? 'bg-[#0F172A] text-white font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
           >
             <Package className="w-5 h-5" />
             <span>Products</span>
           </button>
           <button
             onClick={() => setActiveTab('orders')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'orders' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'orders' ? 'bg-[#0F172A] text-white font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
           >
             <Truck className="w-5 h-5" />
             <span>Orders</span>
           </button>
           <button
-            onClick={() => setActiveTab('portfolio')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'portfolio' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+            onClick={() => setActiveTab('settings')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'settings' ? 'bg-[#0F172A] text-white font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
           >
-            <ImageIcon className="w-5 h-5" />
-            <span>Portfolio</span>
+            <Shield className="w-5 h-5" />
+            <span>Settings</span>
           </button>
-          <button
-            onClick={() => setActiveTab('content')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'content' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
-          >
-            <Settings className="w-5 h-5" />
-            <span>Site Content</span>
-          </button>
-        </div>
-        <div className="hidden md:block border-t border-gray-100 pt-6 mt-6">
-           <Link to="/" className="flex items-center space-x-2 text-gray-500 hover:text-gray-900 transition-colors">
-              <Eye className="w-5 h-5" />
-              <span>View Live Site</span>
-           </Link>
+          <div className="md:mt-auto pt-0 md:pt-6">
+            <Link to="/" className="w-full flex items-center justify-center space-x-2 bg-gray-100 text-gray-700 font-bold px-4 py-3 rounded-xl hover:bg-gray-200 transition-colors whitespace-nowrap">
+              <LogOut className="w-5 h-5" />
+              <span>Return to Store</span>
+            </Link>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 md:p-12 overflow-y-auto">
-        {!isSupabaseConfigured && (
-          <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-2xl mb-8">
-            <h3 className="text-xl font-bold mb-2 break-words">Critical: Missing Supabase Environment Variables</h3>
-            <p className="mb-4">
-              It looks like you deployed this application to Netlify but <strong>did not correctly set your Vite environment variables</strong> during the build.
-            </p>
-            <ol className="list-decimal pl-5 space-y-3 mb-4 font-medium">
-              <li>Go to your Netlify dashboard for this site.</li>
-              <li>Navigate to <strong>Site configuration &gt; Environment variables</strong>.</li>
-              <li>Add a variable exactly named <code>VITE_SUPABASE_URL</code> with your Supabase URL.</li>
-              <li>Add a variable exactly named <code>VITE_SUPABASE_ANON_KEY</code> with your Supabase anon key.</li>
-              <li className="text-red-600 font-bold">CRITICAL: Go to Deploys, click the "Trigger deploy" dropdown, and select "Clear cache and deploy site". A normal restart is NOT enough because Vite bakes variables into the code during the build.</li>
-            </ol>
-            <p className="text-sm border-t border-red-200 mt-4 pt-4">
-              If the variables are set correctly as <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> and you've triggered a "Clear cache and deploy", this message will disappear.
-            </p>
-          </div>
-        )}
-        {/* Simple Analytics Header */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-             <h3 className="text-sm font-medium text-gray-500 mb-1">Total Products</h3>
-             <p className="text-3xl font-semibold text-gray-900">{totalProducts}</p>
-          </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-             <h3 className="text-sm font-medium text-gray-500 mb-1">Portfolio Items</h3>
-             <p className="text-3xl font-semibold text-gray-900">{totalPortfolioItems}</p>
-          </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-             <h3 className="text-sm font-medium text-gray-500 mb-1">Total Orders</h3>
-             <p className="text-3xl font-semibold text-gray-900">{totalOrders}</p>
-          </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-             <h3 className="text-sm font-medium text-gray-500 mb-1">Messages</h3>
-             <p className="text-3xl font-semibold text-gray-900">48</p>
-          </div>
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold font-heading text-[#0F172A] capitalize">{activeTab}</h1>
         </div>
 
+        {activeTab === 'analytics' && (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                  <BarChart3 className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Total Revenue</h3>
+                  <p className="text-2xl font-bold text-[#0F172A]">₦{totalRevenue.toFixed(2)}</p>
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <Truck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Total Orders</h3>
+                  <p className="text-2xl font-bold text-[#0F172A]">{orders.length}</p>
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                  <Package className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Products Configured</h3>
+                  <p className="text-2xl font-bold text-[#0F172A]">{products.length}</p>
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+                  <Users className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Active Customers</h3>
+                  <p className="text-2xl font-bold text-[#0F172A]">{new Set(orders.map(o => o.email)).size}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
+               <h3 className="text-xl font-bold font-heading mb-4">Recent Activity</h3>
+               <p className="text-gray-500">Analytics overview is fully active and pulling from local state.</p>
+            </div>
+          </div>
+        )}
+        
         {activeTab === 'products' && <ManageProducts />}
         {activeTab === 'orders' && <ManageOrders />}
-        {activeTab === 'portfolio' && <ManagePortfolio />}
-        {activeTab === 'content' && <ManageContent />}
+        {activeTab === 'settings' && <ManageSettings />}
       </div>
+    </div>
+  );
+};
+
+const ManageSettings = () => {
+  const [url, setUrl] = useState(() => localStorage.getItem('supabase_url') || '');
+  const [key, setKey] = useState(() => localStorage.getItem('supabase_anon_key') || '');
+  const [paystack, setPaystack] = useState(() => localStorage.getItem('paystack_public_key') || '');
+  const [status, setStatus] = useState<string | null>(null);
+
+  const saveSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem('supabase_url', url);
+    localStorage.setItem('supabase_anon_key', key);
+    localStorage.setItem('paystack_public_key', paystack);
+    setStatus('Saved successfully! Refreshing...');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
+
+  return (
+    <div className="max-w-2xl bg-white p-8 rounded-3xl border border-gray-200 shadow-sm relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full translate-x-16 -translate-y-16"></div>
+      <h2 className="text-2xl font-bold mb-6 font-heading relative z-10 text-[#0F172A]">Integrations Settings</h2>
+      <p className="text-gray-500 font-sans mb-8 relative z-10">
+        Enter your Supabase and Paystack credentials below. These keys will be stored securely in your browser's local storage to connect to your live database and process payments.
+      </p>
+      
+      <form onSubmit={saveSettings} className="space-y-6 relative z-10 font-sans">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Supabase Project URL</label>
+          <input 
+            type="text" 
+            placeholder="https://your-project.supabase.co" 
+            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
+            value={url} 
+            onChange={(e) => setUrl(e.target.value)} 
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Supabase Anon Key</label>
+          <input 
+            type="password" 
+            placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
+            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
+            value={key} 
+            onChange={(e) => setKey(e.target.value)} 
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Paystack Public Key</label>
+          <input 
+            type="text" 
+            placeholder="pk_test_..." 
+            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
+            value={paystack} 
+            onChange={(e) => setPaystack(e.target.value)} 
+          />
+        </div>
+        
+        {status && <p className="text-green-600 font-bold">{status}</p>}
+        
+        <button 
+          type="submit" 
+          className="px-8 py-4 bg-[#F59E0B] text-[#0F172A] rounded-xl hover:bg-[#D97706] hover:text-white transition-colors font-bold shadow-lg mt-4 w-full md:w-auto"
+        >
+          Save Details & Connect
+        </button>
+      </form>
     </div>
   );
 };
@@ -164,57 +245,24 @@ const AdminDashboard = () => {
 const ManageProducts = () => {
   const { products, addProduct, updateProduct, deleteProduct } = useAppContext();
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isUploading) {
-       setErrorMessage("Please wait for the image to finish uploading.");
-       return;
+    if (editingProduct?.id) {
+      updateProduct(editingProduct.id, editingProduct);
+    } else {
+      addProduct(editingProduct as any);
     }
-    setIsSaving(true);
-    setSuccessMessage('');
-    setErrorMessage('');
-    try {
-      if (editingProduct?.id) {
-        await updateProduct(editingProduct.id, editingProduct);
-        setSuccessMessage("Product updated successfully!");
-      } else {
-        await addProduct(editingProduct as any);
-        setSuccessMessage("Congratulations! You have successfully added a product.");
-      }
-      setEditingProduct(null);
-      setTimeout(() => setSuccessMessage(''), 4000);
-    } catch (err: any) {
-      setErrorMessage("Failed to save product: " + err.message);
-    } finally {
-      setIsSaving(false);
-    }
+    setEditingProduct(null);
   };
 
   return (
     <div>
-      {successMessage && (
-        <div className="mb-6 bg-emerald-50 text-emerald-800 p-4 rounded-xl flex items-center border border-emerald-200">
-          <CheckCircle className="w-5 h-5 mr-3 text-emerald-600" />
-          <span className="font-medium">{successMessage}</span>
-        </div>
-      )}
-      {errorMessage && (
-        <div className="mb-6 bg-red-50 text-red-800 p-4 rounded-xl flex items-center border border-red-200">
-          <X className="w-5 h-5 mr-3 text-red-600" />
-          <span className="font-medium">{errorMessage}</span>
-          <button onClick={() => setErrorMessage('')} className="ml-auto"><X className="w-4 h-4" /></button>
-        </div>
-      )}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 space-y-4 sm:space-y-0">
-        <h2 className="text-2xl font-semibold text-gray-900">Product Management</h2>
+        <h2 className="text-xl font-bold text-[#0F172A] font-heading">Product Inventory</h2>
         <button 
-          onClick={() => setEditingProduct({ name: '', description: '', price: 0, category: 'Accessories', image: '', isSold: false })}
-          className="flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+          onClick={() => setEditingProduct({ name: '', description: '', price: 0, category: 'men', image: '', inStock: true, rating: 5 })}
+          className="flex items-center space-x-2 bg-[#F59E0B] text-[#0F172A] px-5 py-3 rounded-full hover:bg-[#D97706] hover:text-white transition-colors font-bold shadow-lg shadow-[#F59E0B]/20"
         >
           <Plus className="w-4 h-4" />
           <span>Add Product</span>
@@ -222,459 +270,161 @@ const ManageProducts = () => {
       </div>
 
       {editingProduct && (
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 mb-8">
-          <h3 className="text-lg font-medium mb-4">{editingProduct.id ? 'Edit Product' : 'New Product'}</h3>
-          <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required placeholder="Name" className="p-3 border rounded-xl" value={editingProduct.name || ''} onChange={(e) => setEditingProduct({...editingProduct, name: e.target.value})} />
-            <input required type="number" placeholder="Price" className="p-3 border rounded-xl" value={editingProduct.price || ''} onChange={(e) => setEditingProduct({...editingProduct, price: Number(e.target.value)})} />
-            <select required className="p-3 border rounded-xl" value={editingProduct.category || ''} onChange={(e) => setEditingProduct({...editingProduct, category: e.target.value as any})}>
-              <option value="Accessories">Accessories</option>
-              <option value="Student Materials">Student Materials</option>
-              <option value="Clothes">Clothes</option>
-              <option value="Shoes">Shoes</option>
-              <option value="Data Analysis">Data Analysis</option>
-            </select>
-            <div className="col-span-1 md:col-span-2">
-               <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
-               <input 
-                 type="file" 
-                 accept="image/*"
-                 required={!editingProduct.image}
-                 className="p-3 border rounded-xl w-full bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer" 
-                 onChange={async (e) => {
-                   const file = e.target.files?.[0];
-                   if (file) {
-                     setIsUploading(true);
-                     try {
-                        const fileExt = file.name.split('.').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'png';
-                        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-                        const filePath = `product-images/${fileName}`;
-                        
-                        const { error, data } = await supabase.storage.from('images').upload(filePath, file, {
-                          cacheControl: '3600',
-                          upsert: true
-                        });
-                        if (error) {
-                          console.error("Product image upload Supabase error:", error);
-                          throw error;
-                        }
-                        
-                        const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(filePath);
-                        setEditingProduct({...editingProduct, image: publicUrl});
-                        setSuccessMessage("Image uploaded successfully!");
-                        setTimeout(() => setSuccessMessage(''), 3000);
-                     } catch (err: any) {
-                        console.error('Full Product image upload error:', err);
-                        setErrorMessage(`Image upload failed: ${err.message}. Please check if the 'images' storage bucket is created and policies are configured.`);
-                     } finally {
-                        setIsUploading(false);
-                     }
-                   }
-                 }} 
-               />
-               {isUploading && <p className="text-sm text-amber-600 mt-2 font-medium animate-pulse">Uploading image please wait...</p>}
-               {editingProduct.image && !isUploading && (
-                 <div className="mt-4 relative inline-block">
-                   <img src={editingProduct.image} alt="Preview" className="h-24 w-24 object-cover rounded-xl border border-gray-200" />
-                   <button type="button" onClick={() => setEditingProduct({...editingProduct, image: ''})} className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200">
-                     <X className="w-4 h-4" />
-                   </button>
-                 </div>
-               )}
+        <div className="bg-white p-8 rounded-3xl border border-gray-200 mb-8 shadow-xl shadow-[#0F172A]/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full translate-x-16 -translate-y-16"></div>
+          <h3 className="text-2xl font-bold mb-6 font-heading relative z-10">{editingProduct.id ? 'Edit Product' : 'New Product'}</h3>
+          <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 font-sans">
+            <div>
+               <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+               <input required className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9]" value={editingProduct.name || ''} onChange={(e) => setEditingProduct({...editingProduct, name: e.target.value})} />
             </div>
-            <textarea required placeholder="Description" className="p-3 border rounded-xl col-span-1 md:col-span-2" value={editingProduct.description || ''} onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})} />
-            <label className="flex items-center space-x-2 p-3">
-              <input type="checkbox" checked={editingProduct.isSold || false} onChange={(e) => setEditingProduct({...editingProduct, isSold: e.target.checked})} />
-              <span>Mark as Sold Out</span>
-            </label>
-            <div className="col-span-1 md:col-span-2 justify-end flex space-x-2 mt-4">
-               <button type="button" onClick={() => setEditingProduct(null)} className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Cancel</button>
-               <button type="submit" disabled={isSaving || isUploading} className="px-4 py-2 bg-amber-600 text-black rounded-lg hover:bg-amber-500 font-medium disabled:opacity-50">
-                  {isSaving ? 'Saving...' : 'Save Product'}
-               </button>
+            <div>
+               <label className="block text-sm font-medium text-gray-700 mb-1">Price (₦)</label>
+               <input required type="number" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9]" value={editingProduct.price || ''} onChange={(e) => setEditingProduct({...editingProduct, price: Number(e.target.value)})} />
+            </div>
+            <div>
+               <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+               <select required className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9]" value={editingProduct.category || ''} onChange={(e) => setEditingProduct({...editingProduct, category: e.target.value as any})}>
+                 <option value="men">Men's Fashion</option>
+                 <option value="women">Women's Fashion</option>
+                 <option value="unisex">Unisex Fashion</option>
+                 <option value="shoes">Shoes</option>
+                 <option value="accessories">Accessories</option>
+                 <option value="student">Student Essentials</option>
+               </select>
+            </div>
+            <div>
+               <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
+               <input type="file" accept="image/*" onChange={(e) => {
+                 const file = e.target.files?.[0];
+                 if (file) {
+                   const reader = new FileReader();
+                   reader.onloadend = () => {
+                     setEditingProduct({...editingProduct, image: reader.result as string});
+                   };
+                   reader.readAsDataURL(file);
+                 }
+               }} className="w-full p-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-[#F59E0B] file:text-[#0F172A] hover:file:bg-[#D97706] cursor-pointer" />
+               {editingProduct.image && <img src={editingProduct.image} alt="Preview" className="mt-2 w-16 h-16 object-cover rounded-xl border border-gray-200" />}
+            </div>
+            <div className="col-span-1 md:col-span-2">
+               <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+               <textarea required rows={3} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] resize-none" value={editingProduct.description || ''} onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})} />
+            </div>
+            <div className="col-span-1 md:col-span-2 flex items-center space-x-3 bg-gray-50 p-4 rounded-xl border border-gray-200">
+              <input type="checkbox" id="instock" className="w-5 h-5 accent-[#6D28D9]" checked={editingProduct.inStock ?? true} onChange={(e) => setEditingProduct({...editingProduct, inStock: e.target.checked})} />
+              <label htmlFor="instock" className="font-bold text-[#0F172A] cursor-pointer">In Stock</label>
+            </div>
+            <div className="col-span-1 md:col-span-2 justify-end flex space-x-4 mt-2">
+               <button type="button" onClick={() => setEditingProduct(null)} className="px-6 py-3 font-bold text-gray-500 hover:bg-gray-100 rounded-full transition-colors">Cancel</button>
+               <button type="submit" className="px-8 py-3 bg-[#F59E0B] text-[#0F172A] rounded-full hover:bg-[#D97706] hover:text-white transition-colors font-bold shadow-lg">Save Product</button>
             </div>
           </form>
         </div>
       )}
 
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="p-4 font-medium text-gray-500 text-sm">Product</th>
-              <th className="p-4 font-medium text-gray-500 text-sm">Category</th>
-              <th className="p-4 font-medium text-gray-500 text-sm">Price</th>
-              <th className="p-4 font-medium text-gray-500 text-sm">Status</th>
-              <th className="p-4 font-medium text-gray-500 text-sm text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {products.map(product => (
-              <tr key={product.id} className="hover:bg-gray-50/50">
-                <td className="p-4 flex items-center space-x-3">
-                   <img src={product.image} alt={product.name} className="w-10 h-10 rounded-md object-cover" />
-                   <span className="font-medium text-gray-900">{product.name}</span>
-                </td>
-                <td className="p-4 text-gray-600 text-sm">{product.category}</td>
-                <td className="p-4 font-medium">₦{product.price.toLocaleString()}</td>
-                <td className="p-4 px-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${product.isSold ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
-                    {product.isSold ? 'Sold' : 'Available'}
-                  </span>
-                </td>
-                <td className="p-4 flex items-center justify-end space-x-2">
-                  <button onClick={() => setEditingProduct(product)} className="p-1.5 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md"><Edit2 className="w-4 h-4" /></button>
-                  <button onClick={async () => {
-                    try {
-                      await deleteProduct(product.id);
-                    } catch (err: any) {
-                      alert("Failed to delete product: " + err.message);
-                    }
-                  }} className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md"><Trash2 className="w-4 h-4" /></button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+           <table className="w-full text-left font-sans whitespace-nowrap">
+             <thead className="bg-gray-50 border-b border-gray-100 uppercase tracking-wider">
+               <tr>
+                 <th className="px-6 py-4 font-bold text-gray-500 text-xs">Product</th>
+                 <th className="px-6 py-4 font-bold text-gray-500 text-xs">Category</th>
+                 <th className="px-6 py-4 font-bold text-gray-500 text-xs">Price</th>
+                 <th className="px-6 py-4 font-bold text-gray-500 text-xs">Inventory Status</th>
+                 <th className="px-6 py-4 font-bold text-gray-500 text-xs text-right">Actions</th>
+               </tr>
+             </thead>
+             <tbody className="divide-y divide-gray-100">
+               {products.map(product => (
+                 <tr key={product.id} className="hover:bg-gray-50/50 transition-colors">
+                   <td className="px-6 py-4 flex items-center space-x-4">
+                      <div className="w-12 h-12 rounded-xl border border-gray-100 overflow-hidden shrink-0">
+                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                      </div>
+                      <span className="font-bold text-[#0F172A] max-w-[200px] truncate">{product.name}</span>
+                   </td>
+                   <td className="px-6 py-4 text-gray-600 text-sm capitalize">{product.category}</td>
+                   <td className="px-6 py-4 font-bold text-[#0F172A]">₦{product.price.toFixed(2)}</td>
+                   <td className="px-6 py-4">
+                     <span className={`px-3 py-1 rounded-full text-xs font-bold border ${product.inStock ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                       {product.inStock ? 'In Stock' : 'Sold Out'}
+                     </span>
+                   </td>
+                   <td className="px-6 py-4 text-right">
+                     <div className="flex justify-end gap-2">
+                        <button onClick={() => setEditingProduct(product)} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#6D28D9] hover:bg-[#6D28D9]/10 rounded-full transition-colors"><Edit2 className="w-4 h-4" /></button>
+                        <button onClick={() => deleteProduct(product.id)} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"><Trash2 className="w-4 h-4" /></button>
+                     </div>
+                   </td>
+                 </tr>
+               ))}
+             </tbody>
+           </table>
+        </div>
       </div>
     </div>
   );
 };
 
 const ManageOrders = () => {
-  const { orders, updateOrder } = useAppContext();
-  const [editingOrder, setEditingOrder] = useState<Order | null>(null);
-
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editingOrder) {
-      try {
-        await updateOrder(editingOrder.id, {
-          status: editingOrder.status,
-          estimatedDelivery: editingOrder.estimatedDelivery,
-        });
-        alert("Order updated successfully!");
-        setEditingOrder(null);
-      } catch (err: any) {
-        alert("Failed to update order: " + err.message);
-      }
-    }
-  };
-
-  const getStatusColor = (status: Order['status']) => {
-    switch (status) {
-      case 'Processing': return 'bg-yellow-50 text-yellow-600';
-      case 'Shipped': return 'bg-blue-50 text-blue-600';
-      case 'Out for Delivery': return 'bg-purple-50 text-purple-600';
-      case 'Delivered': return 'bg-green-50 text-green-600';
-      default: return 'bg-gray-50 text-gray-600';
-    }
-  };
-
+  const { orders, updateOrderStatus } = useAppContext();
+  
   return (
     <div>
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900">Order Management</h2>
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-[#0F172A] font-heading">Order History Overview</h2>
       </div>
 
-      {editingOrder && (
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 mb-8 max-w-xl">
-           <h3 className="text-lg font-medium mb-4">Update Order {editingOrder.orderNumber}</h3>
-           <form onSubmit={handleSave} className="space-y-4">
-             <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-               <select 
-                 className="w-full p-3 border rounded-xl bg-white" 
-                 value={editingOrder.status} 
-                 onChange={(e) => setEditingOrder({...editingOrder, status: e.target.value as any})}
-               >
-                 <option value="Processing">Processing</option>
-                 <option value="Shipped">Shipped</option>
-                 <option value="Out for Delivery">Out for Delivery</option>
-                 <option value="Delivered">Delivered</option>
-               </select>
-             </div>
-             <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Estimated Delivery</label>
-               <input 
-                 type="date" 
-                 required 
-                 className="w-full p-3 border rounded-xl" 
-                 value={editingOrder.estimatedDelivery.split('T')[0]} 
-                 onChange={(e) => setEditingOrder({...editingOrder, estimatedDelivery: new Date(e.target.value).toISOString()})} 
-               />
-             </div>
-             <div className="justify-end flex space-x-2 mt-4 pt-4 border-t">
-                <button type="button" onClick={() => setEditingOrder(null)} className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Cancel</button>
-                <button type="submit" className="px-4 py-2 bg-amber-600 text-black rounded-lg hover:bg-amber-500 font-medium">Save Order</button>
-             </div>
-           </form>
-        </div>
-      )}
-
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="p-4 font-medium text-gray-500 text-sm">Order No.</th>
-              <th className="p-4 font-medium text-gray-500 text-sm text-center">Date</th>
-              <th className="p-4 font-medium text-gray-500 text-sm">Customer</th>
-              <th className="p-4 font-medium text-gray-500 text-sm">Product</th>
-              <th className="p-4 font-medium text-gray-500 text-sm">Status</th>
-              <th className="p-4 font-medium text-gray-500 text-sm text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {orders.length === 0 ? (
-              <tr><td colSpan={6} className="p-8 text-center text-gray-500">No orders placed yet.</td></tr>
-            ) : (
-              orders.map(order => (
-                <tr key={order.id} className="hover:bg-gray-50/50">
-                  <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{order.orderNumber}</td>
-                  <td className="p-4 text-gray-500 text-sm text-center whitespace-nowrap">{new Date(order.createdAt).toLocaleDateString()}</td>
-                  <td className="p-4 text-gray-900">{order.customerName}</td>
-                  <td className="p-4 text-gray-600 truncate max-w-[150px]">{order.productName}</td>
-                  <td className="p-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="p-4 flex items-center justify-end">
-                    <button onClick={() => setEditingOrder(order)} className="p-1.5 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md"><Edit2 className="w-4 h-4" /></button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
-
-const ManagePortfolio = () => {
-  const { portfolioItems, addPortfolioItem, updatePortfolioItem, deletePortfolioItem } = useAppContext();
-  const [editingItem, setEditingItem] = useState<Partial<PortfolioItem> | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isUploading) {
-       setErrorMessage("Please wait for the image to finish uploading.");
-       return;
-    }
-    setIsSaving(true);
-    setSuccessMessage('');
-    setErrorMessage('');
-    try {
-      if (editingItem?.id) {
-        await updatePortfolioItem(editingItem.id, editingItem);
-        setSuccessMessage("Portfolio item updated successfully!");
-      } else {
-        await addPortfolioItem(editingItem as any);
-        setSuccessMessage("Congratulations! You have successfully added a project.");
-      }
-      setEditingItem(null);
-      setTimeout(() => setSuccessMessage(''), 4000);
-    } catch (err: any) {
-      setErrorMessage("Failed to save portfolio item: " + err.message);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  return (
-    <div>
-      {successMessage && (
-        <div className="mb-6 bg-emerald-50 text-emerald-800 p-4 rounded-xl flex items-center border border-emerald-200">
-          <CheckCircle className="w-5 h-5 mr-3 text-emerald-600" />
-          <span className="font-medium">{successMessage}</span>
-        </div>
-      )}
-      {errorMessage && (
-        <div className="mb-6 bg-red-50 text-red-800 p-4 rounded-xl flex items-center border border-red-200">
-          <X className="w-5 h-5 mr-3 text-red-600" />
-          <span className="font-medium">{errorMessage}</span>
-          <button onClick={() => setErrorMessage('')} className="ml-auto"><X className="w-4 h-4" /></button>
-        </div>
-      )}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 space-y-4 sm:space-y-0">
-        <h2 className="text-2xl font-semibold text-gray-900">Portfolio Management</h2>
-        <button 
-          onClick={() => setEditingItem({ title: '', description: '', category: 'Website Design', image: '' })}
-          className="flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add Project</span>
-        </button>
-      </div>
-
-      {editingItem && (
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 mb-8">
-           <h3 className="text-lg font-medium mb-4">{editingItem.id ? 'Edit Project' : 'New Project'}</h3>
-           <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             <input required placeholder="Project Title" className="p-3 border rounded-xl" value={editingItem.title || ''} onChange={(e) => setEditingItem({...editingItem, title: e.target.value})} />
-             <select required className="p-3 border rounded-xl" value={editingItem.category || ''} onChange={(e) => setEditingItem({...editingItem, category: e.target.value as any})}>
-                <option value="Website Design">Website Design</option>
-                <option value="Graphics Design">Graphics Design</option>
-                <option value="Data Analysis">Data Analysis</option>
-             </select>
-             <div className="col-span-1 md:col-span-2">
-               <label className="block text-sm font-medium text-gray-700 mb-1">Project Image</label>
-               <input 
-                 type="file" 
-                 accept="image/*"
-                 required={!editingItem.image}
-                 className="p-3 border rounded-xl w-full bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer" 
-                 onChange={async (e) => {
-                   const file = e.target.files?.[0];
-                   if (file) {
-                     setIsUploading(true);
-                     try {
-                        const fileExt = file.name.split('.').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'png';
-                        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-                        const filePath = `portfolio-images/${fileName}`;
-                        
-                        const { error } = await supabase.storage.from('images').upload(filePath, file, {
-                          cacheControl: '3600',
-                          upsert: true
-                        });
-                        if (error) {
-                          console.error("Portfolio image upload Supabase error:", error);
-                          throw error;
-                        }
-                        
-                        const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(filePath);
-                        setEditingItem({...editingItem, image: publicUrl});
-                        setSuccessMessage("Image uploaded successfully!");
-                        setTimeout(() => setSuccessMessage(''), 3000);
-                     } catch (err: any) {
-                        console.error('Full Portfolio image upload error:', err);
-                        setErrorMessage(`Image upload failed: ${err.message}. Please check if the 'images' storage bucket is created and policies are configured.`);
-                     } finally {
-                        setIsUploading(false);
-                     }
-                   }
-                 }} 
-               />
-               {isUploading && <p className="text-sm text-amber-600 mt-2 font-medium animate-pulse">Uploading image please wait...</p>}
-               {editingItem.image && !isUploading && (
-                 <div className="mt-4 relative inline-block">
-                   <img src={editingItem.image} alt="Preview" className="h-40 w-auto object-cover rounded-xl border border-gray-200" />
-                   <button type="button" onClick={() => setEditingItem({...editingItem, image: ''})} className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200">
-                     <X className="w-4 h-4" />
-                   </button>
-                 </div>
+      <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+           <table className="w-full text-left font-sans whitespace-nowrap">
+             <thead className="bg-[#0F172A] text-white tracking-wider">
+               <tr>
+                 <th className="px-6 py-4 font-bold text-xs uppercase">Order No.</th>
+                 <th className="px-6 py-4 font-bold text-xs uppercase">Date</th>
+                 <th className="px-6 py-4 font-bold text-xs uppercase">Customer</th>
+                 <th className="px-6 py-4 font-bold text-xs uppercase">Total</th>
+                 <th className="px-6 py-4 font-bold text-xs uppercase">Status</th>
+                 <th className="px-6 py-4 font-bold text-xs uppercase text-right">Update Status</th>
+               </tr>
+             </thead>
+             <tbody className="divide-y divide-gray-100">
+               {orders.length === 0 ? (
+                 <tr><td colSpan={6} className="p-12 text-center text-gray-500 font-medium">No orders have been placed yet.</td></tr>
+               ) : (
+                 orders.map(order => (
+                   <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
+                     <td className="px-6 py-4 font-bold text-[#0F172A]">{order.orderNumber}</td>
+                     <td className="px-6 py-4 text-gray-500 text-sm">{new Date(order.createdAt).toLocaleDateString()}</td>
+                     <td className="px-6 py-4">
+                        <p className="font-bold text-[#0F172A]">{order.customerName}</p>
+                        <p className="text-xs text-gray-400">{order.email}</p>
+                     </td>
+                     <td className="px-6 py-4 font-bold text-[#10B981]">₦{order.totalPrice.toFixed(2)}</td>
+                     <td className="px-6 py-4">
+                       <span className={`px-3 py-1 rounded-full text-xs font-bold border ${order.status === 'Processing' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : order.status === 'Shipped' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-green-50 text-green-700 border-green-200'}`}>
+                         {order.status}
+                       </span>
+                     </td>
+                     <td className="px-6 py-4 text-right">
+                        <select 
+                          className="p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6D28D9] font-medium"
+                          value={order.status}
+                          onChange={(e) => updateOrderStatus(order.id, e.target.value as Order['status'])}
+                        >
+                           <option value="Processing">Processing</option>
+                           <option value="Shipped">Shipped</option>
+                           <option value="Delivered">Delivered</option>
+                        </select>
+                     </td>
+                   </tr>
+                 ))
                )}
-             </div>
-             <textarea required placeholder="Description / Details" className="p-3 border rounded-xl col-span-1 md:col-span-2" value={editingItem.description || ''} onChange={(e) => setEditingItem({...editingItem, description: e.target.value})} />
-             <div className="col-span-1 md:col-span-2 justify-end flex space-x-2 mt-4">
-                <button type="button" onClick={() => setEditingItem(null)} className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Cancel</button>
-                <button type="submit" disabled={isSaving || isUploading} className="px-4 py-2 bg-amber-600 text-black rounded-lg hover:bg-amber-500 font-medium disabled:opacity-50">
-                  {isSaving ? 'Saving...' : 'Save Project'}
-                </button>
-             </div>
-           </form>
+             </tbody>
+           </table>
         </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-         {portfolioItems.map(item => (
-            <div key={item.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col md:flex-row shadow-sm">
-               <div className="w-full md:w-1/3 aspect-video md:aspect-auto bg-gray-100">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-               </div>
-               <div className="p-4 flex flex-col flex-1">
-                  <div className="flex justify-between items-start mb-2">
-                     <span className="text-xs font-semibold text-amber-600 uppercase tracking-widest bg-amber-50 px-2 py-1 rounded-md">{item.category}</span>
-                     <div className="flex space-x-2">
-                        <button onClick={() => setEditingItem(item)} className="p-1.5 text-gray-400 hover:text-amber-600 bg-gray-50 rounded-md hover:bg-amber-50"><Edit2 className="w-4 h-4" /></button>
-                        <button onClick={async () => {
-                          try {
-                            await deletePortfolioItem(item.id);
-                          } catch (err: any) {
-                            alert("Failed to delete project: " + err.message);
-                          }
-                        }} className="p-1.5 text-gray-400 hover:text-red-600 bg-gray-50 rounded-md hover:bg-red-50"><Trash2 className="w-4 h-4" /></button>
-                     </div>
-                  </div>
-                  <h3 className="font-semibold text-gray-900">{item.title}</h3>
-                  <p className="text-gray-500 text-sm mt-1 line-clamp-2">{item.description}</p>
-               </div>
-            </div>
-         ))}
       </div>
-    </div>
-  );
-};
-
-const ManageContent = () => {
-  const { siteContent, updateSiteContent } = useAppContext();
-  const [formData, setFormData] = useState<SiteContent>(siteContent);
-  const [saveStatus, setSaveStatus] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await updateSiteContent(formData);
-      setSaveStatus('Saved successfully!');
-      setTimeout(() => setSaveStatus(''), 3000);
-    } catch (err: any) {
-      alert("Failed to save content: " + err.message);
-    }
-  };
-
-  return (
-    <div>
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900">Content Management</h2>
-        <p className="text-gray-500 mt-2">Update text content across the website.</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-[2rem] border border-gray-200 shadow-sm max-w-3xl">
-         <div className="space-y-8">
-            <div>
-               <h3 className="text-lg font-medium border-b pb-2 mb-4">Home Page</h3>
-               <div className="space-y-4">
-                  <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-1">Hero Title</label>
-                     <input type="text" className="w-full p-3 border rounded-xl" value={formData.homeHeroTitle} onChange={(e) => setFormData({...formData, homeHeroTitle: e.target.value})} />
-                  </div>
-                  <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-1">Hero Subtitle</label>
-                     <input type="text" className="w-full p-3 border rounded-xl" value={formData.homeHeroSubtitle} onChange={(e) => setFormData({...formData, homeHeroSubtitle: e.target.value})} />
-                  </div>
-               </div>
-            </div>
-            
-            <div>
-               <h3 className="text-lg font-medium border-b pb-2 mb-4">About Section</h3>
-               <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Introduction Text</label>
-                  <textarea rows={4} className="w-full p-3 border rounded-xl resize-y" value={formData.aboutIntro} onChange={(e) => setFormData({...formData, aboutIntro: e.target.value})} />
-               </div>
-            </div>
-
-            <div>
-               <h3 className="text-lg font-medium border-b pb-2 mb-4">Vision & Goals</h3>
-               <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Vision Statement</label>
-                  <textarea rows={3} className="w-full p-3 border rounded-xl resize-y" value={formData.visionText} onChange={(e) => setFormData({...formData, visionText: e.target.value})} />
-               </div>
-            </div>
-
-            <div className="pt-4 border-t flex items-center justify-between">
-               <span className="text-amber-600 font-medium">{saveStatus}</span>
-               <button type="submit" className="flex items-center space-x-2 bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors">
-                  <Save className="w-5 h-5" />
-                  <span>Publish Changes</span>
-               </button>
-            </div>
-         </div>
-      </form>
     </div>
   );
 };

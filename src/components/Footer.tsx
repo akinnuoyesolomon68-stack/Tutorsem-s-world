@@ -1,45 +1,62 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Twitter, Instagram, Facebook, Mail } from 'lucide-react';
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-50 border-t border-gray-100 py-12 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="col-span-1 md:col-span-2">
-          <Link to="/" className="text-xl font-semibold tracking-tight text-gray-900 group">
-            TUTORSEM's World<span className="text-amber-600 transition-colors">.</span>
+    <footer className="bg-[#0F172A] border-t border-[#1E293B] py-16 px-4 md:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
+        <div className="col-span-1 md:col-span-1 lg:col-span-2">
+          <Link to="/" className="text-2xl font-bold tracking-tight text-white font-heading flex items-center gap-1">
+            <span className="text-white">Motun's</span>
+            <span className="text-[#6D28D9]">Unisex</span>
+            <span className="text-[#F59E0B]">.</span>
           </Link>
-          <p className="mt-4 text-gray-500 max-w-sm text-sm leading-relaxed">
-            A premium portfolio and marketplace showcasing creative works and quality products. Building experiences through technology, design, and commerce.
+          <p className="mt-4 text-gray-400 max-w-sm text-sm leading-relaxed font-sans">
+            A premium e-commerce platform defining fashion and lifestyle. We bring luxurious, high-quality styles directly to students, professionals, and fashion enthusiasts worldwide.
           </p>
+          <div className="flex items-center gap-4 mt-6">
+            <a href="#" className="w-10 h-10 rounded-full bg-[#1E293B] text-gray-300 flex items-center justify-center hover:bg-[#F59E0B] hover:text-white transition-colors">
+              <Twitter className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-[#1E293B] text-gray-300 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white transition-colors">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-[#1E293B] text-gray-300 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors">
+              <Facebook className="w-5 h-5" />
+            </a>
+          </div>
         </div>
         
         <div>
-          <h4 className="font-semibold text-gray-900 mb-4 text-sm tracking-wide uppercase">Quick Links</h4>
-          <ul className="space-y-3 text-sm text-gray-600">
-            <li><Link to="/about" className="hover:text-amber-600 transition-colors">About</Link></li>
-            <li><Link to="/portfolio" className="hover:text-amber-600 transition-colors">Portfolio</Link></li>
-            <li><Link to="/vision" className="hover:text-amber-600 transition-colors">Vision & Goals</Link></li>
-            <li><Link to="/contact" className="hover:text-amber-600 transition-colors">Contact</Link></li>
+          <h4 className="font-bold text-white mb-6 text-sm tracking-wider uppercase font-heading">Shop</h4>
+          <ul className="space-y-4 text-sm text-gray-400 font-sans">
+            <li><Link to="/shop/category/men" className="hover:text-[#F59E0B] transition-colors">Men's Fashion</Link></li>
+            <li><Link to="/shop/category/women" className="hover:text-[#F59E0B] transition-colors">Women's Fashion</Link></li>
+            <li><Link to="/shop/category/shoes" className="hover:text-[#F59E0B] transition-colors">Shoes & Sneakers</Link></li>
+            <li><Link to="/shop/category/student" className="hover:text-[#F59E0B] transition-colors">Student Essentials</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-semibold text-gray-900 mb-4 text-sm tracking-wide uppercase">Categories</h4>
-          <ul className="space-y-3 text-sm text-gray-600">
-            <li><Link to="/marketplace" className="hover:text-amber-600 transition-colors">Accessories</Link></li>
-            <li><Link to="/marketplace" className="hover:text-amber-600 transition-colors">Student Materials</Link></li>
-            <li><Link to="/marketplace" className="hover:text-amber-600 transition-colors">Clothes & Shoes</Link></li>
+          <h4 className="font-bold text-white mb-6 text-sm tracking-wider uppercase font-heading">Company</h4>
+          <ul className="space-y-4 text-sm text-gray-400 font-sans">
+            <li><Link to="/about" className="hover:text-[#F59E0B] transition-colors">About Us</Link></li>
+            <li><Link to="/contact" className="hover:text-[#F59E0B] transition-colors">Contact Support</Link></li>
+            <li><a href="#" className="hover:text-[#F59E0B] transition-colors">Privacy Policy</a></li>
+            <li><a href="#" className="hover:text-[#F59E0B] transition-colors">Terms of Service</a></li>
           </ul>
         </div>
       </div>
       
-      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between">
-        <p className="text-sm text-gray-500">
-          © {new Date().getFullYear()} TUTORSEM's World. All rights reserved.
-        </p>
-        <Link to="/admin" className="text-sm text-gray-400 hover:text-amber-600 mt-4 md:mt-0 transition-colors">
-          Admin Access
+      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-[#1E293B] flex flex-col md:flex-row items-center justify-between font-sans">
+        <div className="text-sm text-gray-500 space-y-1 md:space-y-0 md:flex md:items-center md:gap-2 text-center md:text-left">
+          <p>© {new Date().getFullYear()} Motun's Unisex. All rights reserved.</p>
+          <span className="hidden md:inline">|</span>
+          <p>Proudly designed by TUTORSEM'S world</p>
+        </div>
+        <Link to="/admin" className="text-sm text-gray-500 hover:text-[#F59E0B] mt-4 md:mt-0 transition-colors">
+          Admin Login
         </Link>
       </div>
     </footer>

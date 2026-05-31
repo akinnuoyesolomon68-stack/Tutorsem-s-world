@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Mail, MapPin, Send, MessageCircle, Phone } from 'lucide-react';
 
 export const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -11,15 +11,18 @@ export const Contact = () => {
     setStatus('submitting');
     setTimeout(() => {
       setStatus('success');
+      
+      const text = `Hello, I'm contacting you from Motun's Unisex.\n\n*Name:* ${formData.name}\n*Email:* ${formData.email}\n*Order/Subject:* ${formData.subject}\n*Message:* ${formData.message}`;
+      const url = `https://wa.me/2349115275892?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+      
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 3000);
-    }, 1500);
+    }, 1000);
   };
 
   return (
-    <div className="w-full bg-white min-h-screen pt-20 pb-32 px-6 md:px-12 relative overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ca8a04 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+    <div className="w-full bg-[#F8FAFC] min-h-[80vh] py-12 lg:py-24 px-4 md:px-8 lg:px-12 relative overflow-hidden">
       
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div 
@@ -27,13 +30,13 @@ export const Contact = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16 max-w-2xl mx-auto"
         >
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter text-gray-900 mb-6">Get In Touch</h1>
-          <p className="text-xl text-gray-600 leading-relaxed">
-            Have a project in mind, need to order a custom product, or simply want to say hello? Let's connect.
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-[#0F172A] mb-6 font-heading">Get In Touch</h1>
+          <p className="text-lg text-gray-500 font-sans leading-relaxed">
+            Need help with an order, styling advice, or general inquiries? Our customer support team is here for you.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -41,111 +44,106 @@ export const Contact = () => {
             className="lg:col-span-2 space-y-10"
           >
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h3>
-              <div className="space-y-6">
-                <a href="mailto:hello@tutorsem.com" className="flex items-start space-x-4 group text-gray-600 hover:text-amber-600 transition-colors">
-                  <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100 group-hover:bg-amber-50 group-hover:border-amber-100 transition-colors">
-                    <Mail className="w-5 h-5 flex-shrink-0" />
+              <h3 className="text-xl font-bold text-[#0F172A] mb-6 font-heading">Support Channels</h3>
+              <div className="space-y-4">
+                <a href="mailto:akinnuoyesolomon7@gmail.com" className="flex items-center space-x-4 group p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-[#6D28D9]/30 transition-colors">
+                  <div className="w-12 h-12 bg-purple-50 rounded-xl text-[#6D28D9] flex items-center justify-center group-hover:bg-[#6D28D9] group-hover:text-white transition-colors">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 group-hover:text-amber-600 transition-colors">Email</p>
-                    <p>hello@tutorsem.com</p>
+                    <p className="font-bold text-[#0F172A]">Email Us</p>
+                    <p className="text-sm text-gray-500">akinnuoyesolomon7@gmail.com</p>
                   </div>
                 </a>
-                <a href="https://wa.me/2348154405635" target="_blank" rel="noopener noreferrer" className="flex items-start space-x-4 group text-gray-600 hover:text-[#25D366] transition-colors">
-                  <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100 group-hover:bg-[#25D366]/10 group-hover:border-[#25D366]/20 transition-colors">
-                    <MessageCircle className="w-5 h-5 flex-shrink-0" />
+                
+                <a href="https://wa.me/2349115275892" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-4 group p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-[#10B981]/30 transition-colors">
+                  <div className="w-12 h-12 bg-green-50 rounded-xl text-[#10B981] flex items-center justify-center group-hover:bg-[#10B981] group-hover:text-white transition-colors">
+                    <MessageCircle className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 group-hover:text-[#25D366] transition-colors">WhatsApp</p>
-                    <p>+234 815 440 5635</p>
+                    <p className="font-bold text-[#0F172A]">WhatsApp Chat</p>
+                    <p className="text-sm text-gray-500">09115275892</p>
                   </div>
                 </a>
-                <div className="flex items-start space-x-4 text-gray-600">
-                  <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <MapPin className="w-5 h-5 flex-shrink-0" />
+
+                <a href="tel:+2349115275892" className="flex items-center space-x-4 group p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-gray-300 transition-colors">
+                  <div className="w-12 h-12 bg-gray-50 rounded-xl text-gray-600 flex items-center justify-center group-hover:bg-gray-800 group-hover:text-white transition-colors">
+                    <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">Location</p>
-                    <p>Available for freelance worldwide.</p>
+                    <p className="font-bold text-[#0F172A]">Call Us</p>
+                    <p className="text-sm text-gray-500">09115275892</p>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
 
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Socials</h3>
-              <div className="flex flex-wrap gap-4">
-                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-amber-400 hover:bg-amber-50 transition-all">X Profile</a>
-                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-amber-400 hover:bg-amber-50 transition-all">Facebook profile</a>
-                <a href="#" className="px-5 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-amber-400 hover:bg-amber-50 transition-all">Instagram profile</a>
-              </div>
-            </div>
           </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            className="lg:col-span-3 bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-gray-200/40 border border-gray-100"
+            className="lg:col-span-3 bg-white p-8 md:p-10 rounded-3xl shadow-xl shadow-[#0F172A]/5 border border-gray-100 relative overflow-hidden"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+             <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full translate-x-16 -translate-y-16"></div>
+            <form onSubmit={handleSubmit} className="space-y-6 relative z-10 font-sans">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-gray-700">Name</label>
+                  <label htmlFor="name" className="text-sm font-bold text-gray-700">Name</label>
                   <input
                     id="name"
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/50 transition-all"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-700">Email</label>
+                  <label htmlFor="email" className="text-sm font-bold text-gray-700">Email</label>
                   <input
                     id="email"
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/50 transition-all"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium text-gray-700">Subject</label>
+                <label htmlFor="subject" className="text-sm font-bold text-gray-700">Order Number / Subject</label>
                 <input
                   id="subject"
                   type="text"
                   required
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/50 transition-all"
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-gray-700">Message</label>
+                <label htmlFor="message" className="text-sm font-bold text-gray-700">Message</label>
                 <textarea
                   id="message"
                   required
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/50 transition-all resize-none"
                 />
               </div>
               
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="w-full flex items-center justify-center space-x-2 bg-gray-900 text-white font-medium py-4 rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center space-x-2 bg-[#F59E0B] text-[#0F172A] font-bold py-4 rounded-xl hover:bg-[#D97706] hover:text-white transition-colors disabled:opacity-70 disabled:cursor-not-allowed shadow-lg"
               >
                 {status === 'submitting' ? (
-                  <span>Sending...</span>
+                  <span>Sending Message...</span>
                 ) : status === 'success' ? (
-                  <span>Message Sent Successfully!</span>
+                  <span>Message Sent! We will reply soon.</span>
                 ) : (
                   <>
                     <span>Send Message</span>
@@ -157,18 +155,6 @@ export const Contact = () => {
           </motion.div>
         </div>
 
-        {/* Embedded Map Section Placeholder */}
-        <div className="mt-24 h-96 bg-gray-200 rounded-[2rem] overflow-hidden relative">
-           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10000!2d-0.1276!3d51.5072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1sen!2suk!4v1620000000000!5m2!1sen!2suk" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen 
-            loading="lazy"
-            title="Location Map"
-          ></iframe>
-        </div>
       </div>
     </div>
   );
