@@ -175,6 +175,7 @@ const ManageSettings = () => {
   const [url, setUrl] = useState(() => localStorage.getItem('supabase_url') || '');
   const [key, setKey] = useState(() => localStorage.getItem('supabase_anon_key') || '');
   const [paystack, setPaystack] = useState(() => localStorage.getItem('paystack_public_key') || '');
+  const [paystackSecret, setPaystackSecret] = useState(() => localStorage.getItem('paystack_secret_key') || '');
   const [status, setStatus] = useState<string | null>(null);
 
   const saveSettings = (e: React.FormEvent) => {
@@ -182,6 +183,7 @@ const ManageSettings = () => {
     localStorage.setItem('supabase_url', url);
     localStorage.setItem('supabase_anon_key', key);
     localStorage.setItem('paystack_public_key', paystack);
+    localStorage.setItem('paystack_secret_key', paystackSecret);
     setStatus('Saved successfully! Refreshing...');
     setTimeout(() => {
       window.location.reload();
@@ -226,6 +228,17 @@ const ManageSettings = () => {
             className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
             value={paystack} 
             onChange={(e) => setPaystack(e.target.value)} 
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Paystack Secret Key</label>
+          <input 
+            type="password" 
+            placeholder="sk_test_..." 
+            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
+            value={paystackSecret} 
+            onChange={(e) => setPaystackSecret(e.target.value)} 
           />
         </div>
         

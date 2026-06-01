@@ -17,11 +17,13 @@ export const Checkout = () => {
     zip: ''
   });
 
+  const [errorMsg, setErrorMsg] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Retrieve paystack public key
-  const publicKey = typeof window !== 'undefined' ? (localStorage.getItem('paystack_public_key') || '').trim() : '';
+  // Retrieve paystack public key and clean any accidental quotes
+  const rawKey = typeof window !== 'undefined' ? localStorage.getItem('paystack_public_key') : '';
+  const publicKey = rawKey ? rawKey.replace(/['"]/g, '').trim() : '';
 
   const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shipping = subtotal > 100 ? 0 : 15;
@@ -58,15 +60,25 @@ export const Checkout = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
     if (cart.length === 0) return;
     
     if (!publicKey) {
-      alert("Paystack Public Key is not set. Please set it in Admin or Integrations Settings.");
+      setErrorMsg("Paystack Public Key is not set. Please set it in Admin or Integrations Settings.");
+      return;
+    }
+
+    if (!publicKey.startsWith('pk_')) {
+      setErrorMsg("Invalid Paystack Public Key. It must start with 'pk_'. Please check your Admin settings. Make sure you didn't paste a Secret Key.");
       return;
     }
 
     setIsProcessing(true);
-    initializePayment({ onSuccess, onClose });
+    // Passing onSuccess and onClose to initializePayment.
+    // react-paystack v6 handles options either as a callback or config object.
+    // Ensure we trigger it correctly:
+    // @ts-ignore - The react-paystack signatures might overlap
+    initializePayment({ config, onSuccess, onClose });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,6 +118,12 @@ export const Checkout = () => {
         
         {/* Form Container */}
         <div className="flex-1">
+          {errorMsg && (
+            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-xl">
+              <h3 className="text-red-800 font-bold mb-1 font-heading">Payment Setup Error</h3>
+              <p className="text-red-700 text-sm">{errorMsg}</p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm">
               <h2 className="text-2xl font-bold text-[#0F172A] mb-6 font-heading">Shipping Information</h2>
