@@ -42,7 +42,7 @@ export const Cart = () => {
                     className="bg-white p-4 rounded-2xl flex flex-col sm:flex-row items-center gap-4 sm:gap-6 border border-gray-100 shadow-sm"
                   >
                     <div className="w-full sm:w-24 h-24 rounded-xl overflow-hidden bg-gray-50 shrink-0">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                      <img src={item.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80'} alt={item.name} className="w-full h-full object-cover" />
                     </div>
                     
                     <div className="flex-1 text-center sm:text-left">

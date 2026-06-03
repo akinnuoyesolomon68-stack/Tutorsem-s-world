@@ -68,7 +68,7 @@ export const About = () => {
             <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop" alt="Boutique" className="w-full h-full object-cover" />
           </div>
           <div className="absolute top-1/2 -right-8 w-1/2 aspect-square rounded-3xl overflow-hidden bg-gray-100 border-8 border-[#F8FAFC] z-20 shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1558769132-cb1fac08b401?q=80&w=2669&auto=format&fit=crop" alt="Fashion details" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Fashion details" className="w-full h-full object-cover" />
           </div>
         </motion.div>
 

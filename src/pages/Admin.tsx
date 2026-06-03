@@ -261,7 +261,7 @@ const ManageProducts = () => {
                  <tr key={product.id} className="hover:bg-gray-50/50 transition-colors">
                    <td className="px-6 py-4 flex items-center space-x-4">
                       <div className="w-12 h-12 rounded-xl border border-gray-100 overflow-hidden shrink-0">
-                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                         <img src={product.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80'} alt={product.name} className="w-full h-full object-cover" />
                       </div>
                       <span className="font-bold text-[#0F172A] max-w-[200px] truncate">{product.name}</span>
                    </td>

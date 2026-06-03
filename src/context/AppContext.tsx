@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { Product, PRODUCTS } from '../data/products';
 
 export interface CartItem extends Product {
@@ -79,6 +80,7 @@ export const AppProvider: React.FC<{children: React.ReactNode}> = ({ children })
       }
       return [...prev, { ...product, quantity }];
     });
+    toast.success(`${product.name} added to cart`);
   };
 
   const removeFromCart = (productId: string) => {
@@ -98,7 +100,11 @@ export const AppProvider: React.FC<{children: React.ReactNode}> = ({ children })
   const toggleWishlist = (product: Product) => {
     setWishlist(prev => {
       const existing = prev.find(item => item.id === product.id);
-      if (existing) return prev.filter(item => item.id !== product.id);
+      if (existing) {
+        toast.success(`${product.name} removed from wishlist`);
+        return prev.filter(item => item.id !== product.id);
+      }
+      toast.success(`${product.name} added to wishlist`);
       return [...prev, product];
     });
   };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, ShieldCheck } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useAppContext } from '../context/AppContext';
 import { usePaystackPayment } from 'react-paystack';
 
@@ -59,6 +60,7 @@ export const Checkout = () => {
         setIsProcessing(false);
         setSuccess(true);
         clearCart();
+        toast.success("Checkout successful! Thank you for your order.");
         // Redirect after success
         setTimeout(() => navigate('/'), 3000);
       } else {
@@ -190,7 +192,7 @@ export const Checkout = () => {
               {cart.map(item => (
                 <div key={item.id} className="flex gap-4">
                   <div className="w-16 h-16 rounded-lg bg-gray-800 overflow-hidden shrink-0">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover opacity-80" />
+                    <img src={item.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80'} alt={item.name} className="w-full h-full object-cover opacity-80" />
                   </div>
                   <div className="flex-1">
                     <h4 className="text-sm font-bold line-clamp-2">{item.name}</h4>

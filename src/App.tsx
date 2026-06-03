@@ -6,6 +6,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import { Settings } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 import Layout from './components/Layout';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
@@ -20,6 +21,7 @@ export default function App() {
   return (
     <AppProvider>
       <Router>
+        <Toaster position="bottom-right" />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />

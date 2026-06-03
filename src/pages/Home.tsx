@@ -105,7 +105,7 @@ export const Home = () => {
                 className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
               >
                 <div className="relative overflow-hidden aspect-[4/5] bg-gray-100 cursor-pointer" onClick={() => navigate('/shop')}>
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={product.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80'} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   {product.discountBadge && (
                     <div className="absolute top-3 left-3 bg-[#10B981] text-white text-xs font-bold px-2 py-1 rounded-[4px] z-10">
                       {product.discountBadge}
