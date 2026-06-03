@@ -21,9 +21,9 @@ export const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Retrieve paystack public key and clean any accidental quotes
-  const rawKey = typeof window !== 'undefined' ? localStorage.getItem('paystack_public_key') : '';
-  const publicKey = rawKey ? rawKey.replace(/['"]/g, '').trim() : '';
+  // Retrieve paystack public key from env
+  // @ts-ignore
+  const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || '';
 
   const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shipping = subtotal > 100 ? 0 : 15;
@@ -38,19 +38,38 @@ export const Checkout = () => {
 
   const initializePayment = usePaystackPayment(config);
 
-  const onSuccess = (reference: any) => {
-    addOrder({
-      items: [...cart],
-      customerName: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-      totalPrice: total,
-      status: 'Processing'
-    });
-    setIsProcessing(false);
-    setSuccess(true);
-    clearCart();
-    // Redirect after success
-    setTimeout(() => navigate('/'), 3000);
+  const onSuccess = async (reference: any) => {
+    try {
+      setIsProcessing(true);
+      const res = await fetch("/api/verify-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reference: reference.reference }),
+      });
+      const data = await res.json();
+
+      if (data.status === "success") {
+        addOrder({
+          items: [...cart],
+          customerName: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          totalPrice: total,
+          status: 'Processing'
+        });
+        setIsProcessing(false);
+        setSuccess(true);
+        clearCart();
+        // Redirect after success
+        setTimeout(() => navigate('/'), 3000);
+      } else {
+        setIsProcessing(false);
+        setErrorMsg(data.message || "Payment verification failed.");
+      }
+    } catch (error) {
+      console.error("Verification error:", error);
+      setIsProcessing(false);
+      setErrorMsg("An error occurred during verification.");
+    }
   };
 
   const onClose = () => {
@@ -64,21 +83,18 @@ export const Checkout = () => {
     if (cart.length === 0) return;
     
     if (!publicKey) {
-      setErrorMsg("Paystack Public Key is not set. Please set it in Admin or Integrations Settings.");
+      setErrorMsg("Paystack Public Key is not set. Please set the VITE_PAYSTACK_PUBLIC_KEY in your AI Studio Environment Variables / Secrets.");
       return;
     }
 
     if (!publicKey.startsWith('pk_')) {
-      setErrorMsg("Invalid Paystack Public Key. It must start with 'pk_'. Please check your Admin settings. Make sure you didn't paste a Secret Key.");
+      setErrorMsg("Invalid Paystack Public Key. It must start with 'pk_'. Please check your VITE_PAYSTACK_PUBLIC_KEY in AI Studio Environment Variables.");
       return;
     }
 
     setIsProcessing(true);
-    // Passing onSuccess and onClose to initializePayment.
-    // react-paystack v6 handles options either as a callback or config object.
-    // Ensure we trigger it correctly:
-    // @ts-ignore - The react-paystack signatures might overlap
-    initializePayment({ config, onSuccess, onClose });
+    // Passing onSuccess and onClose to initializePayment as a single object argument.
+    initializePayment({ onSuccess, onClose });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

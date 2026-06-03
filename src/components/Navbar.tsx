@@ -75,9 +75,6 @@ export const Navbar = () => {
             <Link to="/shop" className="text-gray-300 hover:text-[#F59E0B] transition-colors hidden sm:block">
               <Search className="w-5 h-5" />
             </Link>
-            <Link to="/admin" className="text-gray-300 hover:text-[#F59E0B] transition-colors hidden sm:block" title="Admin Dashboard">
-              <User className="w-5 h-5" />
-            </Link>
             
             <Link to="/shop" className="relative text-gray-300 hover:text-[#F59E0B] transition-colors">
               <Heart className="w-5 h-5" />
@@ -139,9 +136,6 @@ export const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Link to="/admin" className="text-xl font-medium tracking-tight text-gray-900 border-b border-gray-100 pb-2 font-heading">
-                Admin Dashboard
-              </Link>
             </nav>
           </motion.div>
         )}

@@ -15,14 +15,8 @@ import { Shop } from './pages/Shop';
 import { Cart } from './pages/Cart';
 import { Checkout } from './pages/Checkout';
 import { AppProvider } from './context/AppContext';
-import { IntegrationSettingsModal } from './components/IntegrationSettings';
 
 export default function App() {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(() => {
-    return typeof window !== 'undefined' && 
-      (!localStorage.getItem('supabase_url') || !localStorage.getItem('paystack_public_key'));
-  });
-
   return (
     <AppProvider>
       <Router>
@@ -38,11 +32,6 @@ export default function App() {
           </Route>
           <Route path="/admin" element={<Admin />} />
         </Routes>
-
-        <IntegrationSettingsModal 
-          isOpen={isSettingsOpen} 
-          onClose={() => setIsSettingsOpen(false)} 
-        />
       </Router>
     </AppProvider>
   );

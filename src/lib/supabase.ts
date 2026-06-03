@@ -20,12 +20,9 @@ const envUrl = import.meta.env.VITE_SUPABASE_URL;
 // @ts-ignore
 const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const localUrl = typeof window !== 'undefined' ? localStorage.getItem('supabase_url') : null;
-const localKey = typeof window !== 'undefined' ? localStorage.getItem('supabase_anon_key') : null;
-
-const rawUrl = localUrl || envUrl || 'https://placeholder.supabase.co';
+const rawUrl = envUrl || 'https://placeholder.supabase.co';
 export const isSupabaseConfigured = rawUrl !== 'https://placeholder.supabase.co';
 const supabaseUrl = getBaseUrl(rawUrl);
-const supabaseAnonKey = localKey || envKey || 'placeholder-key';
+const supabaseAnonKey = envKey || 'placeholder-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

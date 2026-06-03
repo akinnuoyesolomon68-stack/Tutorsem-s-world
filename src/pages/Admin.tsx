@@ -93,13 +93,6 @@ const AdminDashboard = () => {
             <Truck className="w-5 h-5" />
             <span>Orders</span>
           </button>
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors whitespace-nowrap ${activeTab === 'settings' ? 'bg-[#0F172A] text-white font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
-          >
-            <Shield className="w-5 h-5" />
-            <span>Settings</span>
-          </button>
           <div className="md:mt-auto pt-0 md:pt-6">
             <Link to="/" className="w-full flex items-center justify-center space-x-2 bg-gray-100 text-gray-700 font-bold px-4 py-3 rounded-xl hover:bg-gray-200 transition-colors whitespace-nowrap">
               <LogOut className="w-5 h-5" />
@@ -165,92 +158,7 @@ const AdminDashboard = () => {
         
         {activeTab === 'products' && <ManageProducts />}
         {activeTab === 'orders' && <ManageOrders />}
-        {activeTab === 'settings' && <ManageSettings />}
       </div>
-    </div>
-  );
-};
-
-const ManageSettings = () => {
-  const [url, setUrl] = useState(() => localStorage.getItem('supabase_url') || '');
-  const [key, setKey] = useState(() => localStorage.getItem('supabase_anon_key') || '');
-  const [paystack, setPaystack] = useState(() => localStorage.getItem('paystack_public_key') || '');
-  const [paystackSecret, setPaystackSecret] = useState(() => localStorage.getItem('paystack_secret_key') || '');
-  const [status, setStatus] = useState<string | null>(null);
-
-  const saveSettings = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem('supabase_url', url);
-    localStorage.setItem('supabase_anon_key', key);
-    localStorage.setItem('paystack_public_key', paystack);
-    localStorage.setItem('paystack_secret_key', paystackSecret);
-    setStatus('Saved successfully! Refreshing...');
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
-  };
-
-  return (
-    <div className="max-w-2xl bg-white p-8 rounded-3xl border border-gray-200 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full translate-x-16 -translate-y-16"></div>
-      <h2 className="text-2xl font-bold mb-6 font-heading relative z-10 text-[#0F172A]">Integrations Settings</h2>
-      <p className="text-gray-500 font-sans mb-8 relative z-10">
-        Enter your Supabase and Paystack credentials below. These keys will be stored securely in your browser's local storage to connect to your live database and process payments.
-      </p>
-      
-      <form onSubmit={saveSettings} className="space-y-6 relative z-10 font-sans">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Supabase Project URL</label>
-          <input 
-            type="text" 
-            placeholder="https://your-project.supabase.co" 
-            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
-            value={url} 
-            onChange={(e) => setUrl(e.target.value)} 
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Supabase Anon Key</label>
-          <input 
-            type="password" 
-            placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
-            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
-            value={key} 
-            onChange={(e) => setKey(e.target.value)} 
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Paystack Public Key</label>
-          <input 
-            type="text" 
-            placeholder="pk_test_..." 
-            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
-            value={paystack} 
-            onChange={(e) => setPaystack(e.target.value)} 
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Paystack Secret Key</label>
-          <input 
-            type="password" 
-            placeholder="sk_test_..." 
-            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#6D28D9] focus:outline-none" 
-            value={paystackSecret} 
-            onChange={(e) => setPaystackSecret(e.target.value)} 
-          />
-        </div>
-        
-        {status && <p className="text-green-600 font-bold">{status}</p>}
-        
-        <button 
-          type="submit" 
-          className="px-8 py-4 bg-[#F59E0B] text-[#0F172A] rounded-xl hover:bg-[#D97706] hover:text-white transition-colors font-bold shadow-lg mt-4 w-full md:w-auto"
-        >
-          Save Details & Connect
-        </button>
-      </form>
     </div>
   );
 };

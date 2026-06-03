@@ -55,9 +55,6 @@ export const Footer = () => {
           <span className="hidden md:inline">|</span>
           <p>Proudly designed by TUTORSEM'S world</p>
         </div>
-        <Link to="/admin" className="text-sm text-gray-500 hover:text-[#F59E0B] mt-4 md:mt-0 transition-colors">
-          Admin Login
-        </Link>
       </div>
     </footer>
   );
