@@ -24,7 +24,7 @@ export const Checkout = () => {
 
   // Retrieve paystack public key from env
   // @ts-ignore
-  const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || '';
+  const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || import.meta.env.PAYSTACK_PUBLIC_KEY || '';
 
   const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shipping = subtotal > 100 ? 0 : 15;
@@ -65,7 +65,7 @@ export const Checkout = () => {
         setTimeout(() => navigate('/'), 3000);
       } else {
         setIsProcessing(false);
-        setErrorMsg(data.message || "Payment verification failed.");
+        setErrorMsg(data.error || data.message || "Payment verification failed.");
       }
     } catch (error) {
       console.error("Verification error:", error);
@@ -85,12 +85,12 @@ export const Checkout = () => {
     if (cart.length === 0) return;
     
     if (!publicKey) {
-      setErrorMsg("Paystack Public Key is not set. Please set the VITE_PAYSTACK_PUBLIC_KEY in your AI Studio Environment Variables / Secrets.");
+      setErrorMsg("Paystack Public Key is missing! In Vercel, go to Settings > Environment Variables, add VITE_PAYSTACK_PUBLIC_KEY (with your public key starting with 'pk_'), and then RE-DEPLOY the app for changes to take effect.");
       return;
     }
 
     if (!publicKey.startsWith('pk_')) {
-      setErrorMsg("Invalid Paystack Public Key. It must start with 'pk_'. Please check your VITE_PAYSTACK_PUBLIC_KEY in AI Studio Environment Variables.");
+      setErrorMsg("Invalid Paystack Public Key. It must start with 'pk_'. Please check your VITE_PAYSTACK_PUBLIC_KEY in Vercel Environment Variables and redeploy.");
       return;
     }
 

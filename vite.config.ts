@@ -6,6 +6,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
+    envPrefix: ['VITE_', 'PAYSTACK_'],
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

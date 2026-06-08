@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   const secretKey = process.env.PAYSTACK_SECRET_KEY;
   if (!secretKey) {
-    return res.status(500).json({ error: "Server misconfiguration: PAYSTACK_SECRET_KEY is missing." });
+    return res.status(500).json({ error: "PAYSTACK_SECRET_KEY is missing! Go to Vercel Settings > Environment Variables, add your secret key as PAYSTACK_SECRET_KEY, and then RE-DEPLOY." });
   }
 
   try {
