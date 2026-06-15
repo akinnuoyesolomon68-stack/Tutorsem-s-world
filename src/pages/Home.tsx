@@ -17,7 +17,7 @@ export const Home = () => {
       <section className="relative pt-24 pb-32 px-4 md:px-8 lg:px-12 overflow-hidden flex items-center min-h-[90vh]">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e07?q=80&w=2564&auto=format&fit=crop" 
+            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2564&auto=format&fit=crop" 
             alt="Fashion and Lifestyle Banner" 
             className="w-full h-full object-cover"
           />
@@ -179,7 +179,7 @@ export const Home = () => {
              viewport={{ once: true }}
              className="w-full md:w-1/3 aspect-[3/4] max-w-sm mx-auto md:mx-0 rounded-3xl overflow-hidden shadow-2xl relative group"
           >
-             <img src="https://i.ibb.co/xt4hVrMD/motun.jpg" alt="Miss Akinnuoye Motunrayo" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80" alt="Miss Akinnuoye Motunrayo" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-[#0F172A]/20 to-transparent flex items-end p-8">
                 <div>
                    <h3 className="text-2xl font-bold text-white font-heading">Miss Akinnuoye Motunrayo</h3>

@@ -15,7 +15,7 @@ export interface Product {
 export const CATEGORIES = [
   { id: 'men', name: "Men's Fashion", image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80' },
   { id: 'women', name: "Women's Fashion", image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80' },
-  { id: 'unisex', name: "Unisex Fashion", image: 'https://images.unsplash.com/photo-1489987707023-afc432cb11f6?w=500&q=80' },
+  { id: 'unisex', name: "Unisex Fashion", image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80' },
   { id: 'shoes', name: "Shoes", image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&q=80' },
   { id: 'accessories', name: "Accessories", image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?w=500&q=80' },
   { id: 'student', name: "Student Essentials", image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80' },
@@ -29,7 +29,7 @@ export const PRODUCTS: Product[] = [
     price: 199.99,
     category: 'men',
     subCategory: 'Jackets',
-    image: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e5?w=500&q=80',
+    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&q=80',
     rating: 4.8,
     isNew: true,
     inStock: true
